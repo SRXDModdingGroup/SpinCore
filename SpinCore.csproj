@@ -61,7 +61,6 @@
     <Compile Include="Patches\MenuSelectWheelPatches.cs" />
     <Compile Include="Patches\MainMenuPatches.cs" />
     <Compile Include="Patches\ScoreSubmissionPatches.cs" />
-    <Compile Include="Patches\SharedMenuMusicPatches.cs" />
     <Compile Include="PluginInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugin.cs" />

@@ -14,7 +14,11 @@ namespace SpinCore.Patches
 {
     class InstancePatches
     {
-
+        [HarmonyPatch(typeof(SharedMenuMusic), "Start"), HarmonyPostfix]
+        private static void SharedMenuMusic_Start(SharedMenuMusic __instance)
+        {
+            InstanceHandler.SharedMenuMusicInstance = __instance;
+        }
 
         [HarmonyPatch(typeof(XDLevelSelectMenu), "Start")]
         [HarmonyPostfix]

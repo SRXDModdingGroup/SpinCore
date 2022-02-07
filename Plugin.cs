@@ -40,7 +40,6 @@ namespace SpinCore
             harmony.PatchAll(typeof(GameStatePatches));
             harmony.PatchAll(typeof(FilePathHandlerPatches));
             harmony.PatchAll(typeof(InstanceHandler));
-            harmony.PatchAll(typeof(SharedMenuMusicPatches));
             harmony.PatchAll(typeof(MenuSelectWheelPatches));
 
             SpinCoreMenu.InitialiseMenu();
