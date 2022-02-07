@@ -31,7 +31,9 @@ namespace SpinCore.Patches
 
             new CustomButton("Open Mods Menu", SpinCoreMenu.OfficialLevelsOptionsContextMenu, delegate {
                 SpinCoreMenu.OfficialLevelsOptionsContextMenu.CloseMenu();
-                SpinCoreMenu.ModMenu.OpenMenu("LevelSelect");
+                SpinCoreMenu.ModMenu.OpenMenu();
+                SpinCoreMenu.ModMenu.gameStateToChangeToOnExitPress = "LevelSelect";
+
             });
 
             button.onClick.AddListener(delegate
@@ -56,7 +58,9 @@ namespace SpinCore.Patches
 
             new CustomButton("Open Mods Menu", SpinCoreMenu.CustomLevelsOptionsContextMenu, delegate {
                 SpinCoreMenu.CustomLevelsOptionsContextMenu.CloseMenu();
-                SpinCoreMenu.ModMenu.OpenMenu("CustomLevelSelect");
+                SpinCoreMenu.ModMenu.OpenMenu();
+                SpinCoreMenu.ModMenu.gameStateToChangeToOnExitPress = "CustomLevelSelect";
+
             });
 
             button.onClick.AddListener(delegate

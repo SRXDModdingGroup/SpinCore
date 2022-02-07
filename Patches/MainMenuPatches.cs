@@ -70,6 +70,8 @@ namespace SpinCore
                 newSpinMenu.snapToCameraOverrideOnOpen = oldXDOptionsMenu.snapToCameraOverrideOnOpen;
                 GameObject.DestroyImmediate(oldXDOptionsMenu);
 
+                newSpinMenu.currentCustomSpinMenu = menu;
+
                 Transform Container = newModMenu.gameObject.transform.Find("Container");
 
                 Container.position -= new Vector3(0.5f, 0f, 0f);
@@ -205,7 +207,9 @@ namespace SpinCore
 
                 button.onClick.AddListener(delegate
                 {
-                    SpinCoreMenu.ModMenu.OpenMenu("MainMenu");
+                    SpinCoreMenu.ModMenu.OpenMenu();
+                    SpinCoreMenu.ModMenu.gameStateToChangeToOnExitPress = "MainMenu";
+
                 });
 
 

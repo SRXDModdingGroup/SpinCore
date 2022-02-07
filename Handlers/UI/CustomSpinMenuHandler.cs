@@ -77,16 +77,13 @@ namespace SpinCore.Handlers.UI
             customSpinTab.OpenMenu();
         }
 
-        public void OpenMenu(string menuToOpenTo = "")
+        public void OpenMenu()
         {
-            if(menuToOpenTo != "")
-                SpinCoreMenu.ModMenu.gameStateToChangeToOnExitPress = menuToOpenTo;
             GameStateManager.Instance.ChangeState((GameStateManager.GameState)gameStateVal);
         }
-        public void OpenMenu(CustomSpinTab customSpinTab, string menuToOpenTo = "")
+
+        public void OpenMenu(CustomSpinTab customSpinTab)
         {
-            if (menuToOpenTo != "")
-                SpinCoreMenu.ModMenu.gameStateToChangeToOnExitPress = menuToOpenTo;
             GameStateManager.Instance.ChangeState((GameStateManager.GameState)gameStateVal);
             OpenSpinTab(customSpinTab);
         }

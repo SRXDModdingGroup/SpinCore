@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SpinCore.Handlers.UI
 {
@@ -19,24 +18,20 @@ namespace SpinCore.Handlers.UI
         public Action OnMenuOpen;
         public void OpenMenu(bool immediate = false)
         {
-            if (!isOpen)
-            {
-                CurrentContexMenu.OpenMenu(immediate);
-                SMU.Events.EventHelper.InvokeAll(OnMenuOpen);
-                isOpen = true;
-            }
+
+            CurrentContexMenu.OpenMenu(immediate);
+            SMU.Events.EventHelper.InvokeAll(OnMenuOpen);
         }
+
 
         public void CloseMenu(bool immediate = false)
         {
-            if (isOpen) {
-                CurrentContexMenu.CloseMenu(immediate);
-                SMU.Events.EventHelper.InvokeAll(OnMenuOpen);
-                isOpen = false;
-            }
+            CurrentContexMenu.CloseMenu(immediate);
+            SMU.Events.EventHelper.InvokeAll(OnMenuOpen);
+
         }
 
-        void SetUpContainer(string menuTitle, Vector3 Movement, bool useScrollView)
+        void SetUpContainer(string menuTitle, Vector3 Movement)
         {
             Transform OptionsTransform = CurrentContexMenu.transform.Find("Container").Find("Background").Find("TopPanel").Find("Options");
             OptionsTransform.name = "HeadingText";
@@ -55,12 +50,14 @@ namespace SpinCore.Handlers.UI
             rectTrans.offsetMax += new Vector2(-25, 0);
             rectTrans.offsetMin += new Vector2(5, 20);
             menuTab.transform.position += Movement;
-
+            CurrentContexMenu.closeWhenClickingOutside = true;
+            CurrentContexMenu.onMenuClose += delegate { isOpen = false; };
+            CurrentContexMenu.onMenuOpen += delegate { isOpen = true; };
             doesExist = true;
 
 
         }
-        public CustomContextMenu(string menuTitle, CustomSpinTab constructorMenu, bool scrollView = true)
+        public CustomContextMenu(string menuTitle, CustomSpinTab constructorMenu)
         {
             CurrentContexMenu = UnityEngine.Object.Instantiate<GameObject>(BuildSettingsAsset.Instance.contextMenuPopupPrefab, constructorMenu.customSpinMenu.spinMenuGroupObject.transform).GetComponentInChildren<SpinContextMenu>();
             CurrentContexMenu.name = "SpinCoreObject" + menuTitle;
@@ -69,18 +66,18 @@ namespace SpinCore.Handlers.UI
 
             spinMenuTab = constructorMenu;
             spinMenuTab.OnMenuClose += delegate { CurrentContexMenu.CloseMenu(); };
-            SetUpContainer(menuTitle, new Vector3(0.12f, 0.47f, 0), scrollView);
+            SetUpContainer(menuTitle, new Vector3(0.12f, 0.47f, 0));
 
         }
 
 
-        public CustomContextMenu(string menuTitle, SpinMenu constructorMenu, bool scrollView = true)
+        public CustomContextMenu(string menuTitle, SpinMenu constructorMenu)
         {
 
             spinMenu = constructorMenu;
             CurrentContexMenu = constructorMenu.GenerateContextMenu();
             CurrentContexMenu.name = "SpinCoreObject" + menuTitle;
-            SetUpContainer(menuTitle, new Vector3(-0.06f, 0.5f, 0), scrollView);
+            SetUpContainer(menuTitle, new Vector3(-0.06f, 0.5f, 0));
 
         }
 
