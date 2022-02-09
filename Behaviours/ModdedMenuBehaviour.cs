@@ -8,7 +8,7 @@ namespace SpinCore.Behaviours
     {
         //this is just here incase anyone wishes to do more with the actual SpinMenu 
 
-        public CustomSpinMenu currentCustomSpinMenu;
+        public CustomSpinMenu CurrentCustomSpinMenu;
         protected override void Update()
         {
             base.Update();

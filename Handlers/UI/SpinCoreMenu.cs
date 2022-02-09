@@ -14,7 +14,7 @@ namespace SpinCore.Handlers.UI
 
         public static void InitialiseMenu()
         {
-            ModMenu.onMenuCreateAction += delegate
+            ModMenu.OnMenuCreateAction += delegate
             {
                 CustomSpinTab spinCoreOptions = ModMenu.CreateSpinTab("SpinCore Options");
                 CustomMenuText spinCoreOptionsTitle = new CustomMenuText("SpinCore Options", spinCoreOptions);

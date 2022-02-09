@@ -21,7 +21,7 @@ namespace SpinCore
     {
 
 
-        public static void createMenuObjects(Transform mainMenuContainer)
+        public static void CreateMenuObjects(Transform mainMenuContainer)
         {
 
 
@@ -30,20 +30,20 @@ namespace SpinCore
 
                 //int gameStateint = gameStateDictionaryNameLookup.GetValueSafe(menu.menuID);
 
-                GameState currentGameState = GameStatePatches.menuIDToGameState.GetValueSafe(menu.menuName);
-                menu.gameStateVal = GameStatePatches.currentDictionaryValue;
-                GameStatePatches.currentDictionaryValue++;
+                GameState currentGameState = GameStatePatches.MenuIDToGameState.GetValueSafe(menu.MenuName);
+                menu.GameStateVal = GameStatePatches.CurrentDictionaryValue;
+                GameStatePatches.CurrentDictionaryValue++;
 
-                menu.spinMenuGroupObject = GameObject.Instantiate<UnityEngine.GameObject>(UICreationHandler.ExampleMenuGroup, mainMenuContainer);
-                menu.spinMenuGroupObject.SetActive(false);
-                SpinMenuGroup newSpinMenuGroup = menu.spinMenuGroupObject.GetComponent<SpinMenuGroup>();
-                menu.spinMenuGroupObject.name = menu.spinMenuGroupName;
-                newSpinMenuGroup.name = menu.spinMenuGroupName;
-                newSpinMenuGroup.menuType = (GameStateManager.GameState)(menu.gameStateVal);
+                menu.SpinMenuGroupObject = GameObject.Instantiate<UnityEngine.GameObject>(UICreationHandler.ExampleMenuGroup, mainMenuContainer);
+                menu.SpinMenuGroupObject.SetActive(false);
+                SpinMenuGroup newSpinMenuGroup = menu.SpinMenuGroupObject.GetComponent<SpinMenuGroup>();
+                menu.SpinMenuGroupObject.name = menu.SpinMenuGroupName;
+                newSpinMenuGroup.name = menu.SpinMenuGroupName;
+                newSpinMenuGroup.menuType = (GameStateManager.GameState)(menu.GameStateVal);
                 newSpinMenuGroup.SetProperty<SpinMenuGroup, GameState>("gameState", currentGameState);
                 newSpinMenuGroup.gameState.menuGroup = newSpinMenuGroup;
-                GameObject newModMenu = menu.spinMenuGroupObject.transform.Find("ExampleMenu").gameObject;
-                newModMenu.name = $"XD{menu.menuName}Menu";
+                GameObject newModMenu = menu.SpinMenuGroupObject.transform.Find("ExampleMenu").gameObject;
+                newModMenu.name = $"XD{menu.MenuName}Menu";
                 XDOptionsMenu oldXDOptionsMenu = newModMenu.GetComponent<XDOptionsMenu>();
                 XDModdedMenu newSpinMenu = newModMenu.AddComponent<XDModdedMenu>();
 
@@ -70,17 +70,17 @@ namespace SpinCore
                 newSpinMenu.snapToCameraOverrideOnOpen = oldXDOptionsMenu.snapToCameraOverrideOnOpen;
                 GameObject.DestroyImmediate(oldXDOptionsMenu);
 
-                newSpinMenu.currentCustomSpinMenu = menu;
+                newSpinMenu.CurrentCustomSpinMenu = menu;
 
-                Transform Container = newModMenu.gameObject.transform.Find("Container");
+                Transform container = newModMenu.gameObject.transform.Find("Container");
 
-                Container.position -= new Vector3(0.5f, 0f, 0f);
+                container.position -= new Vector3(0.5f, 0f, 0f);
 
-                Transform ContentArea = Container.Find("ContentArea");
-                Transform Options = ContentArea.Find("TopPanel").Find("Options");
-                Options.GetComponentInChildren<TranslatedTextMeshPro>().text.SetText(menu.menuName);
-                Options.GetComponentInChildren<TranslatedTextMeshPro>().enabled = false;
-                Options.gameObject.name = menu.menuName;
+                Transform contentArea = container.Find("ContentArea");
+                Transform options = contentArea.Find("TopPanel").Find("Options");
+                options.GetComponentInChildren<TranslatedTextMeshPro>().text.SetText(menu.MenuName);
+                options.GetComponentInChildren<TranslatedTextMeshPro>().enabled = false;
+                options.gameObject.name = menu.MenuName;
 
                 UnityEngine.UI.Button backButton = newModMenu.transform.Find("XDBackButton").GetComponentInChildren<UnityEngine.UI.Button>();
                 backButton.onClick.AddListener(delegate
@@ -90,8 +90,8 @@ namespace SpinCore
                 InstanceHandler.SharedMenuMusicInstance.menusToActiveMusic = InstanceHandler.SharedMenuMusicInstance.menusToActiveMusic.AddToArray(newSpinMenu);
 
 
-                menu.spinMenuGroupObject.SetActive(true);
-                SMU.Events.EventHelper.InvokeAll(menu.onMenuCreateAction);
+                menu.SpinMenuGroupObject.SetActive(true);
+                SMU.Events.EventHelper.InvokeAll(menu.OnMenuCreateAction);
 
                 newSpinMenu.SetContentNavigation(backButton, null);
 
@@ -208,15 +208,15 @@ namespace SpinCore
                 button.onClick.AddListener(delegate
                 {
                     SpinCoreMenu.ModMenu.OpenMenu();
-                    SpinCoreMenu.ModMenu.gameStateToChangeToOnExitPress = "MainMenu";
+                    SpinCoreMenu.ModMenu.GameStateToChangeToOnExitPress = "MainMenu";
 
                 });
 
 
                 //swap the buttons around
-                Transform ExitButtonTransform = buttonsContainer.Find("ExitXDButton");
-                Vector3 exitPosition = ExitButtonTransform.position;
-                ExitButtonTransform.position = ModdedXDButtonObject.transform.position;
+                Transform exitButtonTransform = buttonsContainer.Find("ExitXDButton");
+                Vector3 exitPosition = exitButtonTransform.position;
+                exitButtonTransform.position = ModdedXDButtonObject.transform.position;
                 ModdedXDButtonObject.transform.position = exitPosition;
 
                 Selectable select = buttonsContainer.Find("ExitXDButton").GetComponentInChildren<Button>();
@@ -230,7 +230,7 @@ namespace SpinCore
                 //setting up the menus on next frame ensures that the objects get deleted correctly
                 SMU.Utilities.Dispatcher.QueueForNextFrame(delegate
                 {
-                    createMenuObjects(mainMenuContainer);
+                    CreateMenuObjects(mainMenuContainer);
                 });
                 
 

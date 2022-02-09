@@ -9,12 +9,12 @@ namespace SpinCore.Handlers
     public class CustomLevelHandler
     {
 
-        public static string UniqueNametoFileReference(string UniqueName)
+        public static string UniqueNametoFileReference(string uniqueName)
         {
-            if (UniqueName.Contains("CUSTOM_spinshare_"))
+            if (uniqueName.Contains("CUSTOM_spinshare_"))
             {
-                UniqueName = UniqueName.Replace("CUSTOM_spinshare_", "");
-                return "spinshare_" + UniqueName.Split('_')[0];
+                uniqueName = uniqueName.Replace("CUSTOM_spinshare_", "");
+                return "spinshare_" + uniqueName.Split('_')[0];
             }
             return "";
         }

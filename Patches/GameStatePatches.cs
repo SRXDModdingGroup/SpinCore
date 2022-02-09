@@ -13,18 +13,18 @@ namespace SpinCore.Patches
     public class GameStatePatches
     {
 
-        public static Dictionary<int, CustomSpinMenu> spinMenuLookup = new Dictionary<int, CustomSpinMenu>();
-        public static int currentDictionaryValue = 100;
-        public static Dictionary<string, GameState> menuIDToGameState = new Dictionary<string, GameState>();
+        public static Dictionary<int, CustomSpinMenu> SpinMenuLookup = new Dictionary<int, CustomSpinMenu>();
+        public static int CurrentDictionaryValue = 100;
+        public static Dictionary<string, GameState> MenuIDToGameState = new Dictionary<string, GameState>();
 
         [HarmonyPatch(typeof(GameStateManager), "GetGameStateForType"), HarmonyPrefix]
-        private static bool GameStateManager_GetGameStateForType_Prefix(GameStateManager __instance, GameStateManager.GameState stateType, GameState __result)
+        private static bool GameStateManager_GetGameStateForType_Prefix(GameStateManager __instance, GameStateManager.GameState stateType, GameState result)
         {
             foreach (CustomSpinMenu menu in CustomSpinMenuHandler.MenuList)
             {
-                if ((int)stateType == menu.gameStateVal)
+                if ((int)stateType == menu.GameStateVal)
                 {
-                    __result = menu.gameState;
+                    result = menu.GameState;
                     return false;
                 }
             }
@@ -33,16 +33,16 @@ namespace SpinCore.Patches
         }
 
         [HarmonyPatch(typeof(GameStateManager), "OpenMenuExclusively"), HarmonyPrefix]
-        private static bool GameStateManager_OpenMenuExclusively_Prefix(GameStateManager __instance, GameStateManager.GameState state, bool __result)
+        private static bool GameStateManager_OpenMenuExclusively_Prefix(GameStateManager instance, GameStateManager.GameState state, bool __result)
         {
 
             foreach (CustomSpinMenu menu in CustomSpinMenuHandler.MenuList)
             {
-                if ((int)state == menu.gameStateVal)
+                if ((int)state == menu.GameStateVal)
                 {
-                    if (menu.gameState)
+                    if (menu.GameState)
                     {
-                        menu.gameState.BecomeActive();
+                        menu.GameState.BecomeActive();
                     }
                     return false;
                 }
@@ -57,16 +57,16 @@ namespace SpinCore.Patches
         [HarmonyPatch(typeof(RootGameState), "SetupChildren"), HarmonyPrefix]
         private static bool GameStateManager_SetupChildren_Prefix(RootGameState __instance, GameState currentState, Transform currentTransform)
         {
-            Transform WorldMenuTransform = __instance.gameObject.transform.Find("WorldMenu");
-            if (WorldMenuTransform.name == "WorldMenu")
+            Transform worldMenuTransform = __instance.gameObject.transform.Find("WorldMenu");
+            if (worldMenuTransform.name == "WorldMenu")
             {
                 foreach (CustomSpinMenu menu in CustomSpinMenuHandler.MenuList)
                 {
-                    string menuID = menu.menuName;
-                    if (WorldMenuTransform.Find(menuID) == null)
+                    string menuID = menu.MenuName;
+                    if (worldMenuTransform.Find(menuID) == null)
                     {
-                        Transform Options = WorldMenuTransform.Find("Options");
-                        GameObject newGameStateObject = GameObject.Instantiate(Options.gameObject, WorldMenuTransform);
+                        Transform options = worldMenuTransform.Find("Options");
+                        GameObject newGameStateObject = GameObject.Instantiate(options.gameObject, worldMenuTransform);
                         newGameStateObject.name = menuID;
                         //Plugin.LogInfo(menuID);
                     }
@@ -99,9 +99,9 @@ namespace SpinCore.Patches
                 {
                     try
                     {
-                        if (menu.menuName == gameState.name && !menuIDToGameState.ContainsKey(gameState.name))
+                        if (menu.MenuName == gameState.name && !MenuIDToGameState.ContainsKey(gameState.name))
                         {
-                            menuIDToGameState.Add(menu.menuName, gameState);
+                            MenuIDToGameState.Add(menu.MenuName, gameState);
                         }
                     }
                     catch { }

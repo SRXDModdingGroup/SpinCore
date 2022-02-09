@@ -17,41 +17,41 @@ namespace SpinCore.Handlers
 
         public static void GenerateMenuObjects(Transform mainMenuContainer)
         {
-            GameObject ObjectPool = new GameObject();
-            ObjectPool.SetActive(false);
-            ObjectPool.name = "MenuExampleObjects";
+            GameObject objectPool = new GameObject();
+            objectPool.SetActive(false);
+            objectPool.name = "MenuExampleObjects";
             //create pool
 
             //duplicate the Options Menu
             ExampleMenuGroup = GameObject.Instantiate<UnityEngine.GameObject>(mainMenuContainer.Find("XDOptionsMenuGroup").gameObject);
             ExampleMenuGroup.name = "ExampleMenuGroup";
-            ExampleMenuGroup.transform.SetParent(ObjectPool.transform);
-            Transform ExampleMenu = ExampleMenuGroup.transform.Find("XDOptionsMenu");
-            ExampleMenu.gameObject.name = "ExampleMenu";
-            GameObject.DestroyImmediate(ExampleMenu.Find("TrackInputPreview").gameObject);
-            Transform Container = ExampleMenu.Find("Container");
-            Transform ContentArea = Container.Find("ContentArea");
-            GameObject.DestroyImmediate(ContentArea.Find("Support Content").gameObject);
-            Transform content = ContentArea.Find("Content");
+            ExampleMenuGroup.transform.SetParent(objectPool.transform);
+            Transform exampleMenu = ExampleMenuGroup.transform.Find("XDOptionsMenu");
+            exampleMenu.gameObject.name = "ExampleMenu";
+            GameObject.DestroyImmediate(exampleMenu.Find("TrackInputPreview").gameObject);
+            Transform container = exampleMenu.Find("Container");
+            Transform contentArea = container.Find("ContentArea");
+            GameObject.DestroyImmediate(contentArea.Find("Support Content").gameObject);
+            Transform content = contentArea.Find("Content");
 
-            Transform ExampleTabTransform = content.Find("Accessibility Tab");
-            ExampleTab = ExampleTabTransform.gameObject;
+            Transform exampleTabTransform = content.Find("Accessibility Tab");
+            ExampleTab = exampleTabTransform.gameObject;
             ExampleTab.name = "ExampleTab";
             //take the accessability tab and make it our example tab
-            ExampleTabTransform.SetParent(ObjectPool.transform);
+            exampleTabTransform.SetParent(objectPool.transform);
 
-            Transform ExampleTabContent = ExampleTab.transform.Find("Scroll View").Find("Viewport").Find("Content");
-            RectTransform ExampleTabRectTrans = content.GetComponent<RectTransform>();
-            ExampleTabRectTrans.offsetMin += new Vector2(20f, 0f);
-            ExampleTabRectTrans.offsetMax += new Vector2(0f, -20f);
+            Transform exampleTabContent = ExampleTab.transform.Find("Scroll View").Find("Viewport").Find("Content");
+            RectTransform exampleTabRectTrans = content.GetComponent<RectTransform>();
+            exampleTabRectTrans.offsetMin += new Vector2(20f, 0f);
+            exampleTabRectTrans.offsetMax += new Vector2(0f, -20f);
             //add padding to the menus
 
-            GameObject.DestroyImmediate(ExampleTabContent.Find("Check Boxes Group").gameObject);
-            GameObject.DestroyImmediate(ExampleTabContent.Find("Buttons Group").gameObject);
-            GameObject.DestroyImmediate(ExampleTabContent.Find("Track Speed Group").gameObject);
-            GameObject.DestroyImmediate(ExampleTabContent.Find("Note Beam Group").gameObject);
-            GameObject.DestroyImmediate(ExampleTabContent.Find("Track Lines Group").gameObject);
-            GameObject.DestroyImmediate(ExampleTabContent.Find("Defaults Button ").gameObject);
+            GameObject.DestroyImmediate(exampleTabContent.Find("Check Boxes Group").gameObject);
+            GameObject.DestroyImmediate(exampleTabContent.Find("Buttons Group").gameObject);
+            GameObject.DestroyImmediate(exampleTabContent.Find("Track Speed Group").gameObject);
+            GameObject.DestroyImmediate(exampleTabContent.Find("Note Beam Group").gameObject);
+            GameObject.DestroyImmediate(exampleTabContent.Find("Track Lines Group").gameObject);
+            GameObject.DestroyImmediate(exampleTabContent.Find("Defaults Button ").gameObject);
             GameObject.DestroyImmediate(content.Find("General Tab").gameObject);
             GameObject.DestroyImmediate(content.Find("Visual Tab").gameObject);
             GameObject.DestroyImmediate(content.Find("Colors Tab").gameObject);
@@ -60,7 +60,7 @@ namespace SpinCore.Handlers
             GameObject.DestroyImmediate(content.Find("Tabs").gameObject);
             //YAH YEET
 
-            GameObject menuTab = GameObject.Instantiate(UICreationHandler.ExampleTab.gameObject, ExampleMenu);
+            GameObject menuTab = GameObject.Instantiate(UICreationHandler.ExampleTab.gameObject, exampleMenu);
             menuTab.name = "SideTabListView";
             Transform menuTransform = menuTab.transform;
             menuTransform.localScale = new Vector3(1f, 1f, 1f);

@@ -5,9 +5,9 @@ namespace SpinCore.Handlers
 {
     public class FilePathHandler
     {
-        public static Action<string> handleConfigs;
+        public static Action<string> HandleConfigs;
 
-        public static string customFolderPath;
+        public static string CustomFolderPath;
      
         public static string SpinCoreConfigName = "/SpinCoreConfig.json";
 
@@ -15,7 +15,7 @@ namespace SpinCore.Handlers
 
         public static void HandleConfig(string fileDirectory)
         {
-            customFolderPath = fileDirectory;
+            CustomFolderPath = fileDirectory;
 
 
 
@@ -35,7 +35,7 @@ namespace SpinCore.Handlers
             {
                 Directory.CreateDirectory(fileDirectory + "/Mods/SpinCore");
             }
-            SMU.Events.EventHelper.InvokeAll(handleConfigs, fileDirectory + "/Mods");
+            SMU.Events.EventHelper.InvokeAll(HandleConfigs, fileDirectory + "/Mods");
 
         }
 
