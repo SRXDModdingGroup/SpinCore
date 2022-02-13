@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpinCore.Handlers
 {
-    public class InstanceHandler
+    internal class InstanceHandler
     {
         public static XDCustomLevelSelectMenu XDCustomLevelSelectMenuInstance;
         public static XDLevelSelectMenu XDLevelSelectMenuInstance;

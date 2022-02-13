@@ -1,24 +1,16 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace SpinCore.Handlers
 {
-    public class FilePathHandler
-    {
-        public static Action<string> HandleConfigs;
-
-        public static string CustomFolderPath;
+    public static class FilePathHandler {
+        public static string CustomFolderPath { get; private set; }
      
-        public static string SpinCoreConfigName = "/SpinCoreConfig.json";
+        internal static string SpinCoreConfigName { get; } = "/SpinCoreConfig.json";
 
-
-
-        public static void HandleConfig(string fileDirectory)
+        internal static void Init(string fileDirectory)
         {
             CustomFolderPath = fileDirectory;
-
-
-
+            
             //SpinCore.Logger.LogMessage(configFolderPath);
 
             if (!Directory.Exists(fileDirectory + "/Mods"))
@@ -35,9 +27,6 @@ namespace SpinCore.Handlers
             {
                 Directory.CreateDirectory(fileDirectory + "/Mods/SpinCore");
             }
-            SMU.Events.EventHelper.InvokeAll(HandleConfigs, fileDirectory + "/Mods");
-
         }
-
     }
 }

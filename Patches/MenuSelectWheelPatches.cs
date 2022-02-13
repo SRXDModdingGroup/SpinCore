@@ -1,26 +1,20 @@
 ﻿using HarmonyLib;
 using SpinCore.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpinCore.Patches
 {
-    class MenuSelectWheelPatches
+    internal static class MenuSelectWheelPatches
     {
-
-        static int prevwillLandAtIndex = 0;
+        private static int previousWillLandAtIndex;
+        
         [HarmonyPatch(typeof(GenericWheelInput), "Update")]
         [HarmonyPostfix]
-        private static void GenericWheelInputUpdate_PostFix(GenericWheelInput __instance)
-        {
-            if (prevwillLandAtIndex != __instance.WillLandAtIndex)
-            {
-                prevwillLandAtIndex = __instance.WillLandAtIndex;
-                SMU.Events.EventHelper.InvokeAll(InstanceHandler.OnSelectWheelChangeValue);
-            }
+        private static void GenericWheelInput_Update_PostFix(GenericWheelInput __instance) {
+            if (previousWillLandAtIndex == __instance.WillLandAtIndex)
+                return;
+            
+            previousWillLandAtIndex = __instance.WillLandAtIndex;
+            SMU.Events.EventHelper.InvokeAll(InstanceHandler.OnSelectWheelChangeValue);
         }
     }
 }

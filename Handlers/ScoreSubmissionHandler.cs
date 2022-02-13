@@ -1,31 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 
 namespace SpinCore.Handlers
 {
-    public class ScoreSubmissionHandler
+    public static class ScoreSubmissionHandler
     {
+        public static bool IsScoreSubmissionEnabled => scoreSubmissionBlockers.Count == 0;
 
-        private static List<BepInEx.BaseUnityPlugin> scoreSubmission = new List<BepInEx.BaseUnityPlugin>();
+        private static HashSet<BepInEx.BaseUnityPlugin> scoreSubmissionBlockers = new HashSet<BepInEx.BaseUnityPlugin>();
 
-        public static bool IsScoreSubmissionEnabled { get { return scoreSubmission.Count == 0; } }
+        public static void DisableScoreSubmission(BepInEx.BaseUnityPlugin plugin) => scoreSubmissionBlockers.Add(plugin);
 
-        public static void DisableScoreSubmission(BepInEx.BaseUnityPlugin plugin)
-        {
-            if (!scoreSubmission.Contains(plugin)) { 
-                scoreSubmission.Add(plugin);
-            }
-        }
-        public static void EnableScoreSubmission(BepInEx.BaseUnityPlugin plugin)
-        {
-            if (scoreSubmission.Contains(plugin))
-            {
-                scoreSubmission.Remove(plugin);
-            }
-        }
+        public static void EnableScoreSubmission(BepInEx.BaseUnityPlugin plugin) => scoreSubmissionBlockers.Remove(plugin);
     }
 }

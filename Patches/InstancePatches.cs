@@ -1,18 +1,10 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SpinCore.Handlers;
-using UnityEngine;
 using SpinCore.Handlers.UI;
-using UnityEngine.UI;
-using SMU.Utilities;
 
 namespace SpinCore.Patches
 {
-    class InstancePatches
+    internal static class InstancePatches
     {
         [HarmonyPatch(typeof(SharedMenuMusic), "Start"), HarmonyPostfix]
         private static void SharedMenuMusic_Start(SharedMenuMusic __instance)
@@ -25,15 +17,14 @@ namespace SpinCore.Patches
         private static void XDLevelSelectMenu_Start_Postfix(XDLevelSelectMenu __instance)
         {
             InstanceHandler.XDLevelSelectMenuInstance = __instance;
-            Button button = ModsButtonCreationHandler.CreateModsButton(__instance);
+            var button = ModsButtonCreationHandler.CreateModsButton(__instance);
 
             SpinCoreMenu.OfficialLevelsOptionsContextMenu = new CustomContextMenu("Quick Options", __instance);
 
             new CustomButton("Open Mods Menu", SpinCoreMenu.OfficialLevelsOptionsContextMenu, delegate {
                 SpinCoreMenu.OfficialLevelsOptionsContextMenu.CloseMenu();
-                SpinCoreMenu.ModMenu.OpenMenu();
+                SpinCoreMenu.ModMenu.Open();
                 SpinCoreMenu.ModMenu.GameStateToChangeToOnExitPress = "LevelSelect";
-
             });
 
             button.onClick.AddListener(delegate
@@ -51,16 +42,14 @@ namespace SpinCore.Patches
         private static void XDCustomLevelSelectMenu_Start_Postfix(XDCustomLevelSelectMenu __instance)
         {
             InstanceHandler.XDCustomLevelSelectMenuInstance = __instance;
-
-            Button button = ModsButtonCreationHandler.CreateModsButton(__instance);
+            var button = ModsButtonCreationHandler.CreateModsButton(__instance);
 
             SpinCoreMenu.CustomLevelsOptionsContextMenu = new CustomContextMenu("Quick Options", __instance);
 
             new CustomButton("Open Mods Menu", SpinCoreMenu.CustomLevelsOptionsContextMenu, delegate {
                 SpinCoreMenu.CustomLevelsOptionsContextMenu.CloseMenu();
-                SpinCoreMenu.ModMenu.OpenMenu();
+                SpinCoreMenu.ModMenu.Open();
                 SpinCoreMenu.ModMenu.GameStateToChangeToOnExitPress = "CustomLevelSelect";
-
             });
 
             button.onClick.AddListener(delegate

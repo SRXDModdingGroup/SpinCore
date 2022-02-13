@@ -1,7 +1,7 @@
 ﻿
 namespace SpinCore
 {
-    class PluginInfo
+    internal class PluginInfo
     {
         public const string PLUGIN_GUID = "com.pink.spinrhythm.spincore";
         public const string PLUGIN_NAME = "SpinCore";

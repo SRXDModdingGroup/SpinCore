@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SMU.Reflection;
+﻿using SMU.Reflection;
 namespace SpinCore.Handlers
 {
-    public class CustomLevelHandler
+    public static class CustomLevelHandler
     {
-
-        public static string UniqueNametoFileReference(string uniqueName)
+        public static string UniqueNameToFileReference(string uniqueName)
         {
             if (uniqueName.Contains("CUSTOM_spinshare_"))
             {
                 uniqueName = uniqueName.Replace("CUSTOM_spinshare_", "");
-                return "spinshare_" + uniqueName.Split('_')[0];
+                
+                return $"spinshare_{uniqueName.Split('_')[0]}";
             }
+            
             return "";
         }
 
@@ -28,39 +24,33 @@ namespace SpinCore.Handlers
 
         public static TrackInfo GetTrackInfoFromFileRef(string fileref)
         {
-            TrackInfo trackInfo = null;
-            InstanceHandler.XDCustomLevelSelectMenuInstance.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenuInstance.GetTrackIndexFromName(fileref)).TrackInfoRef.TryGetLoadedAsset(out trackInfo);
+            InstanceHandler.XDCustomLevelSelectMenuInstance.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenuInstance.GetTrackIndexFromName(fileref)).TrackInfoRef.TryGetLoadedAsset(out var trackInfo);
+            
             return trackInfo;
         }
 
-
         public static void DeleteChartFromFileRef(string fileref)
         {
-            TrackInfo trackInfo = GetTrackInfoFromFileRef(fileref);
+            var trackInfo = GetTrackInfoFromFileRef(fileref);
+            
             if (trackInfo != null)
             {
-                CustomTrackBundleSaveFile customTrackBundleSaveFile = trackInfo.CustomFile as CustomTrackBundleSaveFile;
+                var customTrackBundleSaveFile = trackInfo.CustomFile as CustomTrackBundleSaveFile;
                 if (customTrackBundleSaveFile != null)
                 {
-                    customTrackBundleSaveFile.Delete(false);
+                    customTrackBundleSaveFile.Delete();
                     CustomAssetLoadingHelper.Instance.RemoveFileNow(customTrackBundleSaveFile);
                     InstanceHandler.XDCustomLevelSelectMenuInstance.SelectedHandle = null;
                     InstanceHandler.XDCustomLevelSelectMenuInstance.PreviewHandle = null;
                 }
             }
-
         }
-
-        
-
 
         public static void PlayChartFromFileRef(string fileref, TrackData.DifficultyType difficulty)
         {
-            MetadataHandle handle = InstanceHandler.XDCustomLevelSelectMenuInstance.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenuInstance.GetTrackIndexFromName(fileref));
-            PlayableTrackDataSetup setup = new PlayableTrackDataSetup(handle.TrackInfoRef, handle.TrackDataRefForActiveIndex(handle.TrackDataMetadata.GetClosestActiveIndexForDifficulty(difficulty)), default(SetupParameters), null);
-            GameStates.LoadIntoPlayingGameState.LoadHandleUserRequest(TrackLoadingSystem.Instance.BorrowHandle(setup), true);
-            
-            
+            var handle = InstanceHandler.XDCustomLevelSelectMenuInstance.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenuInstance.GetTrackIndexFromName(fileref));
+            var setup = new PlayableTrackDataSetup(handle.TrackInfoRef, handle.TrackDataRefForActiveIndex(handle.TrackDataMetadata.GetClosestActiveIndexForDifficulty(difficulty)), default(SetupParameters));
+            GameStates.LoadIntoPlayingGameState.LoadHandleUserRequest(TrackLoadingSystem.Instance.BorrowHandle(setup));
         }
     }
 }

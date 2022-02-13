@@ -2,34 +2,25 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using SpinCore.Handlers.UI;
-using System.Reflection;
-using Steamworks;
 using SpinCore.Handlers;
-using System;
-using System.IO;
-using System.Net;
-using SimpleJSON;
-using static SpinCore.Handlers.UICreationHandler;
-using UnityEngine;
 using SpinCore.Patches;
-using SMU.Utilities;
-using System.Collections.Generic;
 
 namespace SpinCore
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-    class Plugin : BaseUnityPlugin
+    internal class Plugin : BaseUnityPlugin
     {
         internal static Plugin Instance;
-
-
-        void Awake()
+        
+        private void Awake()
         {
             if (Instance)
             {
                 DestroyImmediate(this);
+                
                 return;
             }
+            
             Instance = this;
 
             // Init logs and patches.
@@ -43,10 +34,7 @@ namespace SpinCore
             harmony.PatchAll(typeof(MenuSelectWheelPatches));
 
             SpinCoreMenu.InitialiseMenu();
-  
         }
-
-
 
         #region logging
         internal static void LogDebug(string message) => Instance.Log(message, LogLevel.Debug);

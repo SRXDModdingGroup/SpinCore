@@ -1,27 +1,19 @@
 ﻿using HarmonyLib;
 using SpinCore.Handlers;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace SpinCore.Patches
 {
-    class FilePathHandlerPatches
+    internal static class FilePathHandlerPatches
     {
-
         [HarmonyPatch(typeof(GameStateManager), "ApplyStartupSettings")]
         [HarmonyPostfix]
-        private static void ChangeState_Postfix(GameStateManager __instance)
+        private static void GameStateManager_ApplyStartupSettings_Postfix(GameStateManager __instance)
         {
-            GameObject obj = new GameObject();
-            obj.AddComponent<SMU.Utilities.Dispatcher>();
-
             string fileDirectory = "";
             string[] arguments = Environment.GetCommandLineArgs();
+            
             foreach (string arg in arguments)
             {
                 switch (arg)
@@ -32,14 +24,13 @@ namespace SpinCore.Patches
                         break;
                 }
             }
+            
             if (fileDirectory.Length == 0)
             {
                 fileDirectory = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "..", "..", "AppData", "LocalLow", "Super Spin Digital", "Spin Rhythm XD", "Custom"));
             }
-            FilePathHandler.HandleConfig(fileDirectory);
+            
+            FilePathHandler.Init(fileDirectory);
         }
-
-
-
     }
 }
