@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using SMU.Utilities;
 using SpinCore.Handlers;
-using SpinCore.Handlers.UI;
+using SpinCore.UI;
 using UnityEngine;
 using UnityEngine.UI;
 

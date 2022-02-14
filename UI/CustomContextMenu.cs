@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace SpinCore.Handlers.UI
+namespace SpinCore.UI
 {
     public class CustomContextMenu : MonoBehaviour {
         private SpinContextMenu baseContextMenu;

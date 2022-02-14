@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace SpinCore.Handlers.UI {
+namespace SpinCore.UI {
     public class CustomSpinMenu : MonoBehaviour {
         public ReadOnlyDictionary<string, CustomSpinTab> Tabs { get; private set; }
         public ReadOnlyDictionary<string, CustomContextMenu> ContextMenus { get; private set; }

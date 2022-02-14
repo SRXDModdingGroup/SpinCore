@@ -1,7 +1,6 @@
-﻿using SpinCore.Handlers.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SpinCore.Handlers
+namespace SpinCore.UI
 {
     internal static class UITemplates {
         public static GameObject MenuGroupTemplate { get; private set; }
@@ -47,26 +46,27 @@ namespace SpinCore.Handlers
             tabRectTransform.offsetMax += new Vector2(0f, -20f);
 
             // YAH YEET
-            Object.Destroy(MenuTemplate.transform.Find("TrackInputPreview").gameObject);
-            Object.Destroy(contentArea.Find("Support Content").gameObject);
-            Object.Destroy(content.Find("General Tab").gameObject);
-            Object.Destroy(content.Find("Visual Tab").gameObject);
-            Object.Destroy(content.Find("Colors Tab").gameObject);
-            Object.Destroy(content.Find("Audio Tab").gameObject);
-            Object.Destroy(content.Find("Input Tab").gameObject);
-            Object.Destroy(content.Find("Tabs").gameObject);
-            Object.Destroy(tabContent.Find("Check Boxes Group").gameObject);
-            Object.Destroy(tabContent.Find("Buttons Group").gameObject);
-            Object.Destroy(tabContent.Find("Track Speed Group").gameObject);
-            Object.Destroy(tabContent.Find("Note Beam Group").gameObject);
-            Object.Destroy(tabContent.Find("Track Lines Group").gameObject);
-            Object.Destroy(tabContent.Find("Defaults Button ").gameObject);
+            Object.DestroyImmediate(MenuGroupTemplate.transform.Find("MappingMenus").gameObject);
+            Object.DestroyImmediate(MenuTemplate.transform.Find("TrackInputPreview").gameObject);
+            Object.DestroyImmediate(contentArea.Find("Support Content").gameObject);
+            Object.DestroyImmediate(content.Find("General Tab").gameObject);
+            Object.DestroyImmediate(content.Find("Visual Tab").gameObject);
+            Object.DestroyImmediate(content.Find("Colors Tab").gameObject);
+            Object.DestroyImmediate(content.Find("Audio Tab").gameObject);
+            Object.DestroyImmediate(content.Find("Input Tab").gameObject);
+            Object.DestroyImmediate(content.Find("Tabs").gameObject);
+            Object.DestroyImmediate(tabContent.Find("Check Boxes Group").gameObject);
+            Object.DestroyImmediate(tabContent.Find("Buttons Group").gameObject);
+            Object.DestroyImmediate(tabContent.Find("Track Speed Group").gameObject);
+            Object.DestroyImmediate(tabContent.Find("Note Beam Group").gameObject);
+            Object.DestroyImmediate(tabContent.Find("Track Lines Group").gameObject);
+            Object.DestroyImmediate(tabContent.Find("Defaults Button ").gameObject);
 
             var tabListRoot = Object.Instantiate(TabTemplate, MenuTemplate.transform);
             
             tabListRoot.name = "TabListRoot";
             tabListRoot.transform.localScale = Vector3.one;
-            Object.Destroy(tabListRoot.GetComponent<SpinMenuTab>());
+            Object.DestroyImmediate(tabListRoot.GetComponent<SpinMenuTab>());
             
             var tabListRectTransform = tabListRoot.GetComponent<RectTransform>();
             

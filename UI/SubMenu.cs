@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SpinCore.Handlers.UI
+namespace SpinCore.UI
 {
-    public class SubMenuHandler
+    public static class SubMenu
     {
         public static void CreateAcceptDenySubMenu(string question, Action action) {
             ModalMessageDialog.Instance.AddMessage(question, null, new ModalMessageDialog.NullCallback(action), Strings.Accept, delegate ()

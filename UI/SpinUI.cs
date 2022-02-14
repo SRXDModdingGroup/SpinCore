@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace SpinCore {
+namespace SpinCore.UI {
     public static class SpinUI {
         public static CustomTextMeshProUGUI CreateText(string text, Transform parent) {
             var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.uiPrefabs.button, parent);

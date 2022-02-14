@@ -37,18 +37,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Behaviours\CustomContextMenu.cs" />
-    <Compile Include="Behaviours\CustomSpinMenu.cs" />
-    <Compile Include="Behaviours\CustomSpinMenuGroup.cs" />
-    <Compile Include="Behaviours\CustomSpinTab.cs" />
-    <Compile Include="Behaviours\SpinPlugin.cs" />
     <Compile Include="Handlers\FilePathHandler.cs" />
     <Compile Include="Handlers\InstanceHandler.cs" />
-    <Compile Include="Handlers\ModsButtonCreationHandler.cs" />
     <Compile Include="Handlers\CustomLevelHandler.cs" />
     <Compile Include="Handlers\ScoreSubmissionHandler.cs" />
-    <Compile Include="Handlers\SubMenuHandler.cs" />
-    <Compile Include="MenuManager.cs" />
     <Compile Include="Patches\InstancePatches.cs" />
     <Compile Include="Patches\FilePathHandlerPatches.cs" />
     <Compile Include="Patches\GameStatePatches.cs" />
@@ -59,8 +51,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="SimpleJson.cs" />
-    <Compile Include="SpinUI.cs" />
-    <Compile Include="UITemplates.cs" />
+    <Compile Include="SpinPlugin.cs" />
+    <Compile Include="UI\CustomContextMenu.cs" />
+    <Compile Include="UI\CustomSpinMenu.cs" />
+    <Compile Include="UI\CustomSpinMenuGroup.cs" />
+    <Compile Include="UI\CustomSpinTab.cs" />
+    <Compile Include="UI\MenuManager.cs" />
+    <Compile Include="UI\SpinUI.cs" />
+    <Compile Include="UI\SubMenu.cs" />
+    <Compile Include="UI\UITemplates.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

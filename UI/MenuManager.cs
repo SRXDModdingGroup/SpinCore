@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using HarmonyLib;
 using SMU.Utilities;
-using SpinCore.Handlers;
-using SpinCore.Handlers.UI;
-using SpinCore.Patches;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace SpinCore {
+namespace SpinCore.UI {
     public static class MenuManager {
         public static ReadOnlyDictionary<string, CustomSpinMenuGroup> MenuGroups { get; private set; }
         
@@ -54,8 +47,9 @@ namespace SpinCore {
             
             Object.Destroy(modsButtonObject.GetComponentInChildren<TranslatedTextMeshPro>());
             modsButtonObject.GetComponentInChildren<CustomTextMeshProUGUI>().text = "Mods";
-
+            
             // Apply the text setter to mouse hover
+            modsButton.onSelect.RemoveAllListeners();
             modsButton.onSelect.AddListener(delegate {
                 foreach (var component in modsButton.textsToSet)
                     component.SetText("Modded Options", true, 0.02f, StockMarketText.CaseType.ToLower, StockMarketText.ScrollType.ScrollNever);
@@ -80,6 +74,7 @@ namespace SpinCore {
             Dispatcher.QueueForNextFrame(() => {
                 UITemplates.GenerateMenuTemplates(mainMenuContainer);
                 CreateModOptionsMenu();
+                modsButton.button.onClick.RemoveAllListeners();
                 modsButton.button.onClick.AddListener(() => OpenMenuGroup(ModOptionsGroup, "MainMenu"));
             });
             

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Object = UnityEngine.Object;
+﻿using UnityEngine;
 
-namespace SpinCore.Handlers.UI
+namespace SpinCore.UI
 {
     public class CustomSpinTab : MonoBehaviour {
         public Transform UIRoot { get; private set; }

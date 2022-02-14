@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
+using SpinCore.UI;
 
-namespace SpinCore
+namespace SpinCore.Patches
 {
     internal static class MainMenuPatches {
         /*

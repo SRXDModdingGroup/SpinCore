@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-namespace SpinCore.Handlers.UI
+namespace SpinCore.UI
 {
     public class CustomSpinMenuGroup : MonoBehaviour {
         private static int gameStateCounter = 100;
