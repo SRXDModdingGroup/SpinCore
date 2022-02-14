@@ -6,37 +6,58 @@ using UnityEngine.UI;
 namespace SpinCore.Handlers.UI {
     public class CustomSpinMenu : MonoBehaviour {
         public ReadOnlyDictionary<string, CustomSpinTab> Tabs { get; private set; }
-        
+        public ReadOnlyDictionary<string, CustomContextMenu> ContextMenus { get; private set; }
         public CustomSpinMenuGroup MenuGroup { get; private set; }
-
-        private Transform tabRoot;
+        public Transform UIRoot { get; private set; }
+        
+        internal SpinMenu BaseSpinMenu { get; private set; }
+        
         private Transform tabListRoot;
         private Dictionary<string, CustomSpinTab> tabs;
-
-        public CustomSpinTab CreateTab(string name, bool createButton = true) {
-            var tab = Instantiate(UITemplates.TabTemplate, tabRoot).GetComponent<CustomSpinTab>();
-            
-            tab.Init(name, this);
-            tabs.Add(name, tab);
-
-            if (createButton)
-                MenuManager.CreateButton(name, tabListRoot, () => OpenTab(tab), 30, 240);
-
-            return tab;
-        }
+        private Dictionary<string, CustomContextMenu> contextMenus;
 
         public void OpenTab(string name) {
             if (tabs.TryGetValue(name, out var tab))
                 OpenTab(tab);
         }
+
+        public void OpenContextMenu(string name) {
+            if (contextMenus.TryGetValue(name, out var contextMenu))
+                contextMenu.Open();
+        }
+
+        public CustomSpinTab CreateTab(string name, bool createButton = true) {
+            var tab = Instantiate(UITemplates.TabTemplate, UIRoot).GetComponent<CustomSpinTab>();
+            
+            tab.Init(name, this);
+            tabs.Add(name, tab);
+
+            if (createButton)
+                SpinUI.CreateButton(name, tabListRoot, () => OpenTab(tab), 30, 240);
+
+            return tab;
+        }
+
+        public CustomContextMenu CreateContextMenu(string name) {
+            var contextMenu = BaseSpinMenu.GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
+            
+            contextMenu.Init(name);
+            contextMenus.Add(name, contextMenu);
+
+            return contextMenu;
+        }
         
-        internal void Init(string name, CustomSpinMenuGroup menuGroup) {
+        internal void Init(string name, CustomSpinMenuGroup menuGroup, bool isSubMenu) {
             gameObject.name = name;
             MenuGroup = menuGroup;
-            tabRoot = transform.Find("Container").Find("ContentArea").Find("Content");
+            UIRoot = transform.Find("Container").Find("ContentArea").Find("Content");
             tabListRoot = transform.Find("TabListRoot");
             tabs = new Dictionary<string, CustomSpinTab>();
             Tabs = new ReadOnlyDictionary<string, CustomSpinTab>(tabs);
+            contextMenus = new Dictionary<string, CustomContextMenu>();
+            ContextMenus = new ReadOnlyDictionary<string, CustomContextMenu>(contextMenus);
+            BaseSpinMenu = GetComponent<SpinMenu>();
+            BaseSpinMenu.isSubMenu = isSubMenu;
         }
 
         private void OpenTab(CustomSpinTab tab) {

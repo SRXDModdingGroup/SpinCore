@@ -1,66 +1,53 @@
 ﻿using HarmonyLib;
+using SMU.Utilities;
 using SpinCore.Handlers;
 using SpinCore.Handlers.UI;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace SpinCore.Patches
 {
     internal static class InstancePatches
     {
-        [HarmonyPatch(typeof(SharedMenuMusic), "Start"), HarmonyPostfix]
-        private static void SharedMenuMusic_Start(SharedMenuMusic __instance)
+        private static void CreateModsUI(XDLevelSelectMenuBase levelSelectMenu, string fromState)
         {
-            InstanceHandler.SharedMenuMusicInstance = __instance;
+            var customFolderButton = levelSelectMenu.sortButton.gameObject;
+            var backingTransform = customFolderButton.transform.parent.parent;
+            var modsButton = Object.Instantiate(customFolderButton.transform.parent.gameObject, backingTransform);
+            
+            modsButton.name = "ModsButton";
+            
+            var buttonTransform = modsButton.transform.Find("SortButtonImg");
+            
+            buttonTransform.name = "ModsButtonImg";
+            buttonTransform.Find("Imgtop").Find("ImagePlay").gameObject.GetComponent<Image>().sprite = ImageHelper.LoadSpriteFromResources("SpinCore.Images.ModsIcon.png");
+            
+            var textObj = buttonTransform.transform.Find("Imgtop").Find("Text TMP");
+            
+            Object.Destroy(textObj.GetComponent<TranslatedTextMeshPro>());
+            textObj.GetComponent<CustomTextMeshProUGUI>().SetText("Mods");
+
+            var button = buttonTransform.GetComponentInChildren<Button>();
+            var contextMenu = levelSelectMenu.GenerateContextMenu();
+            
+            button.onClick.AddListener(() => contextMenu.OpenMenu());
+            
+            SpinUI.CreateButton("Open Mods Menu", contextMenu.transform, () => {
+                contextMenu.CloseMenu();
+                MenuManager.OpenMenuGroup(MenuManager.ModOptionsGroup, fromState);
+            });
         }
 
         [HarmonyPatch(typeof(XDLevelSelectMenu), "Start")]
         [HarmonyPostfix]
-        private static void XDLevelSelectMenu_Start_Postfix(XDLevelSelectMenu __instance)
-        {
-            InstanceHandler.XDLevelSelectMenuInstance = __instance;
-            var button = ModsButtonCreationHandler.CreateModsButton(__instance);
-
-            SpinCoreMenu.OfficialLevelsOptionsContextMenu = new CustomContextMenu("Quick Options", __instance);
-
-            new CustomButton("Open Mods Menu", SpinCoreMenu.OfficialLevelsOptionsContextMenu, delegate {
-                SpinCoreMenu.OfficialLevelsOptionsContextMenu.CloseMenu();
-                SpinCoreMenu.ModMenu.Open();
-                SpinCoreMenu.ModMenu.GameStateToChangeToOnExitPress = "LevelSelect";
-            });
-
-            button.onClick.AddListener(delegate
-            {
-                SpinCoreMenu.OfficialLevelsOptionsContextMenu.OpenMenu();
-            });
-
-
-            SMU.Events.EventHelper.InvokeAll(InstanceHandler.OnOfficialLevelsOpen);
-
-        }
+        private static void XDLevelSelectMenu_Start_Postfix(XDLevelSelectMenu __instance) => CreateModsUI(__instance, "LevelSelect");
 
         [HarmonyPatch(typeof(XDCustomLevelSelectMenu), "Start")]
         [HarmonyPostfix]
         private static void XDCustomLevelSelectMenu_Start_Postfix(XDCustomLevelSelectMenu __instance)
         {
+            CreateModsUI(__instance, "CustomLevelSelect");
             InstanceHandler.XDCustomLevelSelectMenuInstance = __instance;
-            var button = ModsButtonCreationHandler.CreateModsButton(__instance);
-
-            SpinCoreMenu.CustomLevelsOptionsContextMenu = new CustomContextMenu("Quick Options", __instance);
-
-            new CustomButton("Open Mods Menu", SpinCoreMenu.CustomLevelsOptionsContextMenu, delegate {
-                SpinCoreMenu.CustomLevelsOptionsContextMenu.CloseMenu();
-                SpinCoreMenu.ModMenu.Open();
-                SpinCoreMenu.ModMenu.GameStateToChangeToOnExitPress = "CustomLevelSelect";
-            });
-
-            button.onClick.AddListener(delegate
-            {
-                SpinCoreMenu.CustomLevelsOptionsContextMenu.OpenMenu();
-            });
-
-
-            SMU.Events.EventHelper.InvokeAll(InstanceHandler.OnCustomLevelsOpen);
         }
-
-
     }
 }

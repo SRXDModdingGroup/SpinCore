@@ -14,7 +14,6 @@ namespace SpinCore.Patches
                 return;
             
             previousWillLandAtIndex = __instance.WillLandAtIndex;
-            SMU.Events.EventHelper.InvokeAll(InstanceHandler.OnSelectWheelChangeValue);
         }
     }
 }

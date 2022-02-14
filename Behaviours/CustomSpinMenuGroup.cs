@@ -7,6 +7,7 @@ namespace SpinCore.Handlers.UI
     public class CustomSpinMenuGroup : MonoBehaviour {
         private static int gameStateCounter = 100;
         
+        public CustomSpinMenu RootMenu { get; private set; }
         public ReadOnlyDictionary<string, CustomSpinMenu> Menus { get; private set; }
 
         internal int GameStateValue { get; private set; }
@@ -14,10 +15,10 @@ namespace SpinCore.Handlers.UI
 
         private Dictionary<string, CustomSpinMenu> menus;
 
-        public CustomSpinMenu CreateMenu(string name) {
+        public CustomSpinMenu CreateSubMenu(string name) {
             var menu = Instantiate(UITemplates.MenuTemplate, transform).GetComponent<CustomSpinMenu>();
             
-            menu.Init(name, this);
+            menu.Init(name, this, true);
             menus.Add(name, menu);
 
             return menu;
@@ -31,8 +32,15 @@ namespace SpinCore.Handlers.UI
             gameStateCounter++;
             menus = new Dictionary<string, CustomSpinMenu>();
             Menus = new ReadOnlyDictionary<string, CustomSpinMenu>(menus);
+            
+            RootMenu = Instantiate(UITemplates.MenuTemplate, transform).GetComponent<CustomSpinMenu>();
+            RootMenu.Init("Root", this, false);
+            menus.Add("Root", RootMenu);
         }
 
-        internal void Open() => GameStateManager.Instance.ChangeState((GameStateManager.GameState)GameStateValue);
+        internal void Open(string fromState) {
+            RootMenu.BaseSpinMenu.gameStateToChangeToOnExitPress = fromState;
+            GameStateManager.Instance.ChangeState((GameStateManager.GameState) GameStateValue);
+        }
     }
 }
