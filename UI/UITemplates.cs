@@ -22,13 +22,14 @@ namespace SpinCore.UI
             MenuTemplate = MenuGroupTemplate.transform.Find("XDOptionsMenu").gameObject;
             MenuTemplate.name = "Menu";
             
-            var spinMenu = MenuTemplate.AddComponent<CustomSpinMenu>();
+            var spinMenu = MenuTemplate.AddComponent<CustomSpinMenuInternal>();
             var optionsMenu = MenuTemplate.GetComponent<XDOptionsMenu>();
 
             spinMenu.useGUILayout = true;
             spinMenu.supportedNavigationType = NavigationType.AxisSubmitCancel;
             spinMenu.overrideCameraTransform = optionsMenu.overrideCameraTransform;
             Object.DestroyImmediate(optionsMenu);
+            MenuTemplate.AddComponent<CustomSpinMenu>();
             
             var contentArea = MenuTemplate.transform.Find("Container").Find("ContentArea");
             var content = contentArea.Find("Content");

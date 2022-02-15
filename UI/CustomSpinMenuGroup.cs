@@ -34,7 +34,7 @@ namespace SpinCore.UI
         }
 
         internal void Open(string fromState) {
-            RootMenu.gameStateToChangeToOnExitPress = fromState;
+            RootMenu.BaseSpinMenu.gameStateToChangeToOnExitPress = fromState;
             GameStateManager.Instance.ChangeState((GameStateManager.GameState) GameStateValue);
         }
 
@@ -43,7 +43,7 @@ namespace SpinCore.UI
             
             menu.Init(name, this, isSubMenu);
             menus.Add(name, menu);
-            BaseMenuGroup.menus = Menus.Select(pair => (SpinMenu) pair.Value).ToArray();
+            BaseMenuGroup.menus = Menus.Select(pair => pair.Value.BaseSpinMenu).ToArray();
 
             return menu;
         }

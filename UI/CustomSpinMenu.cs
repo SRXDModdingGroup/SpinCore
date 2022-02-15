@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace SpinCore.UI {
-    public class CustomSpinMenu : SpinMenu {
+    public class CustomSpinMenu : MonoBehaviour {
         public ReadOnlyDictionary<string, CustomSpinTab> Tabs { get; private set; }
         public ReadOnlyDictionary<string, CustomContextMenu> ContextMenus { get; private set; }
-        public new CustomSpinMenuGroup MenuGroup { get; private set; }
+        public CustomSpinMenuGroup MenuGroup { get; private set; }
         public Transform UIRoot { get; private set; }
         
-        public override Vector2 MenuTransitionAnchorOffset => new Vector2(1.5f, 0.0f);
-
+        internal SpinMenu BaseSpinMenu { get; private set; }
+        
         private Transform tabListRoot;
         private Dictionary<string, CustomSpinTab> tabs;
         private Dictionary<string, CustomContextMenu> contextMenus;
@@ -39,15 +39,17 @@ namespace SpinCore.UI {
         }
 
         public CustomContextMenu CreateContextMenu(string name) {
-            var contextMenu = GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
+            var contextMenu = BaseSpinMenu.GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
             
             contextMenu.Init(name);
             contextMenus.Add(name, contextMenu);
 
             return contextMenu;
         }
-
+        
         internal void Init(string name, CustomSpinMenuGroup menuGroup, bool isSubMenu) {
+            var backButton = transform.Find("XDBackButton").GetComponentInChildren<Button>();
+            
             gameObject.name = name;
             MenuGroup = menuGroup;
             UIRoot = transform.Find("Container").Find("ContentArea").Find("Content");
@@ -56,12 +58,10 @@ namespace SpinCore.UI {
             Tabs = new ReadOnlyDictionary<string, CustomSpinTab>(tabs);
             contextMenus = new Dictionary<string, CustomContextMenu>();
             ContextMenus = new ReadOnlyDictionary<string, CustomContextMenu>(contextMenus);
-            this.isSubMenu = isSubMenu;
-            
-            var backButton = transform.Find("XDBackButton").GetComponentInChildren<Button>();
-
+            BaseSpinMenu = GetComponent<SpinMenu>();
+            BaseSpinMenu.isSubMenu = isSubMenu;
             backButton.onClick = new Button.ButtonClickedEvent();
-            backButton.onClick.AddListener(ExitButtonPressed);
+            backButton.onClick.AddListener(BaseSpinMenu.ExitButtonPressed);
         }
 
         private void OpenTab(CustomSpinTab tab) {

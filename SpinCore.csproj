@@ -55,6 +55,7 @@
     <Compile Include="UI\CustomContextMenu.cs" />
     <Compile Include="UI\CustomSpinMenu.cs" />
     <Compile Include="UI\CustomSpinMenuGroup.cs" />
+    <Compile Include="UI\CustomSpinMenuInternal.cs" />
     <Compile Include="UI\CustomSpinTab.cs" />
     <Compile Include="UI\MenuManager.cs" />
     <Compile Include="UI\SpinUI.cs" />
