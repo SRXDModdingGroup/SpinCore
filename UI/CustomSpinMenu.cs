@@ -60,6 +60,7 @@ namespace SpinCore.UI {
             ContextMenus = new ReadOnlyDictionary<string, CustomContextMenu>(contextMenus);
             BaseSpinMenu = GetComponent<SpinMenu>();
             BaseSpinMenu.isSubMenu = isSubMenu;
+            BaseSpinMenu.menuGroup = menuGroup.BaseMenuGroup;
             backButton.onClick = new Button.ButtonClickedEvent();
             backButton.onClick.AddListener(BaseSpinMenu.ExitButtonPressed);
         }
