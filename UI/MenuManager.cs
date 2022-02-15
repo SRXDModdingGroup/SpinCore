@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using SMU.Reflection;
 using SMU.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace SpinCore.UI {
 
         private static bool initialized;
         private static Transform mainMenuContainer;
+        private static Transform gameStateContainer;
         private static Dictionary<string, CustomSpinMenuGroup> menuGroups;
 
         public static void OpenMenuGroup(CustomSpinMenuGroup menuGroup, string fromState) => menuGroup.Open(fromState);
@@ -23,10 +25,13 @@ namespace SpinCore.UI {
 
         public static CustomSpinMenuGroup AddMenuGroup(string name) {
             var menuGroup = Object.Instantiate(UITemplates.MenuGroupTemplate, mainMenuContainer).GetComponent<CustomSpinMenuGroup>();
-            
-            menuGroup.Init(name);
-            menuGroups.Add(name, menuGroup);
+            var gameState = Object.Instantiate(UITemplates.GameStateTemplate, gameStateContainer).GetComponent<GameState>();
 
+            gameState.gameObject.name = name;
+            GameStateManager.Instance.rootGameState.SetupChildren(gameStateContainer.GetComponent<GameState>(), gameStateContainer);
+            menuGroup.Init(name, gameState);
+            menuGroups.Add(name, menuGroup);
+            
             return menuGroup;
         }
 
@@ -68,11 +73,12 @@ namespace SpinCore.UI {
             navigation.selectOnUp = modsButtonObject.GetComponentInChildren<Button>();
             exitButton.navigation = navigation;
             mainMenuContainer = mainMenu.transform.parent.parent;
+            gameStateContainer = GameStateManager.Instance.rootGameState.transform.Find("WorldMenu");
             menuGroups = new Dictionary<string, CustomSpinMenuGroup>();
             MenuGroups = new ReadOnlyDictionary<string, CustomSpinMenuGroup>(menuGroups);
-            
+
             Dispatcher.QueueForNextFrame(() => {
-                UITemplates.GenerateMenuTemplates(mainMenuContainer);
+                UITemplates.GenerateMenuTemplates(mainMenuContainer, gameStateContainer);
                 CreateModOptionsMenu();
                 modsButton.button.onClick.RemoveAllListeners();
                 modsButton.button.onClick.AddListener(() => OpenMenuGroup(ModOptionsGroup, "MainMenu"));

@@ -6,8 +6,9 @@ namespace SpinCore.UI
         public static GameObject MenuGroupTemplate { get; private set; }
         public static GameObject MenuTemplate { get; private set; }
         public static GameObject TabTemplate { get; private set; }
+        public static GameObject GameStateTemplate { get; private set; }
         
-        public static void GenerateMenuTemplates(Transform mainMenuContainer) {
+        public static void GenerateMenuTemplates(Transform mainMenuContainer, Transform gameStateContainer) {
             var objectPool = new GameObject();
             
             // Create pool
@@ -15,9 +16,8 @@ namespace SpinCore.UI
             objectPool.name = "MenuObjectTemplates";
 
             // Duplicate the Options Menu
-            MenuGroupTemplate = Object.Instantiate(mainMenuContainer.Find("XDOptionsMenuGroup").gameObject);
+            MenuGroupTemplate = Object.Instantiate(mainMenuContainer.Find("XDOptionsMenuGroup").gameObject, objectPool.transform);
             MenuGroupTemplate.name = "MenuGroup";
-            MenuGroupTemplate.transform.SetParent(objectPool.transform);
             MenuGroupTemplate.AddComponent<CustomSpinMenuGroup>();
             MenuTemplate = MenuGroupTemplate.transform.Find("XDOptionsMenu").gameObject;
             MenuTemplate.gameObject.name = "Menu";
@@ -72,6 +72,9 @@ namespace SpinCore.UI
             
             tabListRectTransform.offsetMax = new Vector3(-40f, 460f);
             tabListRectTransform.offsetMin = new Vector3(-330f, 20f);
+
+            GameStateTemplate = Object.Instantiate(gameStateContainer.Find("Options").gameObject, objectPool.transform);
+            GameStateTemplate.name = "GameState";
         }
     }
 }

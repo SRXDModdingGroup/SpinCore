@@ -27,24 +27,5 @@ namespace SpinCore.Patches
             
             return true;
         }
-
-        [HarmonyPatch(typeof(GameStateManager), "OpenMenuExclusively"), HarmonyPrefix]
-        private static bool GameStateManager_OpenMenuExclusively_Prefix(GameStateManager __instance, GameStateManager.GameState state, bool __result) {
-            foreach (var pair in MenuManager.MenuGroups) {
-                var menuGroup = pair.Value;
-
-                if ((int) state != menuGroup.GameStateValue)
-                    continue;
-                
-                var gameState = menuGroup.BaseMenuGroup.gameState;
-                    
-                if (gameState)
-                    gameState.BecomeActive();
-
-                return false;
-            }
-            
-            return true;
-        }
     }
 }

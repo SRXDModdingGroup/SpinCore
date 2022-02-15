@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using SMU.Reflection;
 using UnityEngine;
 
 namespace SpinCore.UI
@@ -24,7 +25,7 @@ namespace SpinCore.UI
             return menu;
         }
         
-        internal void Init(string name) {
+        internal void Init(string name, GameState gameState) {
             gameObject.name = name;
             BaseMenuGroup = GetComponent<SpinMenuGroup>();
             GameStateValue = gameStateCounter;
@@ -36,6 +37,7 @@ namespace SpinCore.UI
             RootMenu = Instantiate(UITemplates.MenuTemplate, transform).GetComponent<CustomSpinMenu>();
             RootMenu.Init("Root", this, false);
             menus.Add("Root", RootMenu);
+            BaseMenuGroup.SetProperty("gameState", gameState);
         }
 
         internal void Open(string fromState) {
