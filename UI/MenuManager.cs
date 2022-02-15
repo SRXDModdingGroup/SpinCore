@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using SMU.Reflection;
 using SMU.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -50,11 +50,11 @@ namespace SpinCore.UI {
             modsButtonObject.name = "ModdedXDButton";
             modsButtonObject.transform.position -= new Vector3(-1.025f, 3f, 0f);
             
-            Object.Destroy(modsButtonObject.GetComponentInChildren<TranslatedTextMeshPro>());
+            Object.DestroyImmediate(modsButtonObject.GetComponentInChildren<TranslatedTextMeshPro>());
             modsButtonObject.GetComponentInChildren<CustomTextMeshProUGUI>().text = "Mods";
             
             // Apply the text setter to mouse hover
-            modsButton.onSelect.RemoveAllListeners();
+            modsButton.onSelect = new UnityEvent();
             modsButton.onSelect.AddListener(delegate {
                 foreach (var component in modsButton.textsToSet)
                     component.SetText("Modded Options", true, 0.02f, StockMarketText.CaseType.ToLower, StockMarketText.ScrollType.ScrollNever);
@@ -80,7 +80,7 @@ namespace SpinCore.UI {
             Dispatcher.QueueForNextFrame(() => {
                 UITemplates.GenerateMenuTemplates(mainMenuContainer, gameStateContainer);
                 CreateModOptionsMenu();
-                modsButton.button.onClick.RemoveAllListeners();
+                modsButton.button.onClick = new Button.ButtonClickedEvent();
                 modsButton.button.onClick.AddListener(() => OpenMenuGroup(ModOptionsGroup, "MainMenu"));
             });
             
