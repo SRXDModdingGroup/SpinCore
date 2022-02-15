@@ -16,22 +16,19 @@ namespace SpinCore.UI
             objectPool.name = "MenuObjectTemplates";
 
             // Duplicate the Options Menu
-            MenuGroupTemplate = Object.Instantiate(mainMenuContainer.Find("XDOptionsMenuGroup").gameObject, objectPool.transform);
+            MenuGroupTemplate = Object.Instantiate(mainMenuContainer.Find("XDOptionsMenuGroup").gameObject, null, false);
             MenuGroupTemplate.name = "MenuGroup";
             MenuGroupTemplate.AddComponent<CustomSpinMenuGroup>();
             MenuTemplate = MenuGroupTemplate.transform.Find("XDOptionsMenu").gameObject;
-            MenuTemplate.gameObject.name = "Menu";
-            MenuTemplate.transform.SetParent(objectPool.transform);
+            MenuTemplate.name = "Menu";
             
-            var spinMenu = MenuTemplate.AddComponent<SpinMenu>();
+            var spinMenu = MenuTemplate.AddComponent<CustomSpinMenu>();
             var optionsMenu = MenuTemplate.GetComponent<XDOptionsMenu>();
 
             spinMenu.useGUILayout = true;
             spinMenu.supportedNavigationType = NavigationType.AxisSubmitCancel;
             spinMenu.overrideCameraTransform = optionsMenu.overrideCameraTransform;
             Object.DestroyImmediate(optionsMenu);
-            MenuTemplate.AddComponent<CustomSpinMenu>();
-            MenuTemplate.gameObject.SetActive(true);
             
             var contentArea = MenuTemplate.transform.Find("Container").Find("ContentArea");
             var content = contentArea.Find("Content");
@@ -39,7 +36,6 @@ namespace SpinCore.UI
             // Take the accessibility tab and make it our example tab
             TabTemplate = content.Find("Accessibility Tab").gameObject;
             TabTemplate.name = "Tab";
-            TabTemplate.transform.SetParent(objectPool.transform);
             TabTemplate.transform.localScale = Vector3.one;
             TabTemplate.AddComponent<CustomSpinTab>();
 
@@ -82,8 +78,15 @@ namespace SpinCore.UI
             tabListRectTransform.offsetMax = new Vector3(-40f, 460f);
             tabListRectTransform.offsetMin = new Vector3(-330f, 20f);
 
-            GameStateTemplate = Object.Instantiate(gameStateContainer.Find("Options").gameObject, objectPool.transform);
+            GameStateTemplate = Object.Instantiate(gameStateContainer.Find("Options").gameObject);
             GameStateTemplate.name = "GameState";
+            
+            MenuGroupTemplate.transform.SetParent(objectPool.transform, false);
+            MenuTemplate.transform.SetParent(objectPool.transform, false);
+            TabTemplate.transform.SetParent(objectPool.transform, false);
+            GameStateTemplate.transform.SetParent(objectPool.transform, false);
+            MenuTemplate.gameObject.SetActive(true);
+            TabTemplate.gameObject.SetActive(true);
         }
     }
 }

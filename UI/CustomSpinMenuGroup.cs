@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using SMU.Reflection;
 using UnityEngine;
 
@@ -16,14 +17,7 @@ namespace SpinCore.UI
 
         private Dictionary<string, CustomSpinMenu> menus;
 
-        public CustomSpinMenu CreateSubMenu(string name) {
-            var menu = Instantiate(UITemplates.MenuTemplate, transform).GetComponent<CustomSpinMenu>();
-            
-            menu.Init(name, this, true);
-            menus.Add(name, menu);
-
-            return menu;
-        }
+        public CustomSpinMenu CreateSubMenu(string name) => CreateMenu(name, true);
         
         internal void Init(string name, GameState gameState) {
             gameObject.name = name;
@@ -33,16 +27,25 @@ namespace SpinCore.UI
             gameStateCounter++;
             menus = new Dictionary<string, CustomSpinMenu>();
             Menus = new ReadOnlyDictionary<string, CustomSpinMenu>(menus);
-            
-            RootMenu = Instantiate(UITemplates.MenuTemplate, transform).GetComponent<CustomSpinMenu>();
-            RootMenu.Init("Root", this, false);
-            menus.Add("Root", RootMenu);
+
+            RootMenu = CreateMenu("Root", false);
             BaseMenuGroup.SetProperty("gameState", gameState);
+            gameState.menuGroup = BaseMenuGroup;
         }
 
         internal void Open(string fromState) {
-            RootMenu.BaseSpinMenu.gameStateToChangeToOnExitPress = fromState;
+            RootMenu.gameStateToChangeToOnExitPress = fromState;
             GameStateManager.Instance.ChangeState((GameStateManager.GameState) GameStateValue);
+        }
+
+        private CustomSpinMenu CreateMenu(string name, bool isSubMenu) {
+            var menu = Instantiate(UITemplates.MenuTemplate, transform, false).GetComponent<CustomSpinMenu>();
+            
+            menu.Init(name, this, isSubMenu);
+            menus.Add(name, menu);
+            BaseMenuGroup.menus = Menus.Select(pair => (SpinMenu) pair.Value).ToArray();
+
+            return menu;
         }
     }
 }

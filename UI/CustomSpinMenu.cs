@@ -3,14 +3,14 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace SpinCore.UI {
-    public class CustomSpinMenu : MonoBehaviour {
+    public class CustomSpinMenu : SpinMenu {
         public ReadOnlyDictionary<string, CustomSpinTab> Tabs { get; private set; }
         public ReadOnlyDictionary<string, CustomContextMenu> ContextMenus { get; private set; }
-        public CustomSpinMenuGroup MenuGroup { get; private set; }
+        public new CustomSpinMenuGroup MenuGroup { get; private set; }
         public Transform UIRoot { get; private set; }
         
-        internal SpinMenu BaseSpinMenu { get; private set; }
-        
+        public override Vector2 MenuTransitionAnchorOffset => new Vector2(1.5f, 0.0f);
+
         private Transform tabListRoot;
         private Dictionary<string, CustomSpinTab> tabs;
         private Dictionary<string, CustomContextMenu> contextMenus;
@@ -38,14 +38,14 @@ namespace SpinCore.UI {
         }
 
         public CustomContextMenu CreateContextMenu(string name) {
-            var contextMenu = BaseSpinMenu.GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
+            var contextMenu = GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
             
             contextMenu.Init(name);
             contextMenus.Add(name, contextMenu);
 
             return contextMenu;
         }
-        
+
         internal void Init(string name, CustomSpinMenuGroup menuGroup, bool isSubMenu) {
             gameObject.name = name;
             MenuGroup = menuGroup;
@@ -55,8 +55,7 @@ namespace SpinCore.UI {
             Tabs = new ReadOnlyDictionary<string, CustomSpinTab>(tabs);
             contextMenus = new Dictionary<string, CustomContextMenu>();
             ContextMenus = new ReadOnlyDictionary<string, CustomContextMenu>(contextMenus);
-            BaseSpinMenu = GetComponent<SpinMenu>();
-            BaseSpinMenu.isSubMenu = isSubMenu;
+            this.isSubMenu = isSubMenu;
         }
 
         private void OpenTab(CustomSpinTab tab) {
