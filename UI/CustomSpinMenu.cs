@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SpinCore.UI {
     public class CustomSpinMenu : SpinMenu {
@@ -56,6 +57,11 @@ namespace SpinCore.UI {
             contextMenus = new Dictionary<string, CustomContextMenu>();
             ContextMenus = new ReadOnlyDictionary<string, CustomContextMenu>(contextMenus);
             this.isSubMenu = isSubMenu;
+            
+            var backButton = transform.Find("XDBackButton").GetComponentInChildren<Button>();
+
+            backButton.onClick = new Button.ButtonClickedEvent();
+            backButton.onClick.AddListener(ExitButtonPressed);
         }
 
         private void OpenTab(CustomSpinTab tab) {
