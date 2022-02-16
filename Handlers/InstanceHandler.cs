@@ -1,7 +1,9 @@
 ﻿namespace SpinCore.Handlers
 {
-    internal class InstanceHandler
+    internal static class InstanceHandler
     {
-        public static XDCustomLevelSelectMenu XDCustomLevelSelectMenuInstance;
+        public static XDCustomLevelSelectMenu XDCustomLevelSelectMenu;
+
+        public static SharedMenuMusic SharedMenuMusic;
     }
 }

@@ -100,7 +100,7 @@ namespace SpinCore.UI {
 
             foreach (var spinPlugin in spinPlugins) {
                 if (spinPlugin.HasOptionsMenu)
-                    spinPlugin.CreateOptionsMenu(modOptionsMenu.CreateTab(spinPlugin.Name).UIRoot);
+                    spinPlugin.CreateOptionsMenu(modOptionsMenu.CreateTab(spinPlugin.Info.Metadata.Name).UIRoot);
             }
 
             foreach (var spinPlugin in spinPlugins)

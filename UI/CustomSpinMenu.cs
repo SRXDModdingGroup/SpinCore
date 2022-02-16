@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using HarmonyLib;
+using SpinCore.Handlers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,6 +70,8 @@ namespace SpinCore.UI {
             BaseSpinMenu.menuGroup = menuGroup.BaseMenuGroup;
             backButton.onClick = new Button.ButtonClickedEvent();
             backButton.onClick.AddListener(BaseSpinMenu.ExitButtonPressed);
+            InstanceHandler.SharedMenuMusic.menusToActiveMusic
+                = InstanceHandler.SharedMenuMusic.menusToActiveMusic.AddToArray(BaseSpinMenu);
         }
 
         private void OpenTab(CustomSpinTab tab) {

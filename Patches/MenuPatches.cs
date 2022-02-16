@@ -51,7 +51,7 @@ namespace SpinCore.Patches
         private static void XDCustomLevelSelectMenu_Start_Postfix(XDCustomLevelSelectMenu __instance)
         {
             CreateModsUI(__instance, "CustomLevelSelect");
-            InstanceHandler.XDCustomLevelSelectMenuInstance = __instance;
+            InstanceHandler.XDCustomLevelSelectMenu = __instance;
         }
 
         [HarmonyPatch(typeof(XDLevelCompleteMenu), "ProcessGeneralSongComplete"), HarmonyPrefix]
@@ -65,5 +65,8 @@ namespace SpinCore.Patches
 
             previousWillLandAtIndex = __instance.WillLandAtIndex;
         }
+        
+        [HarmonyPatch(typeof(SharedMenuMusic), "Start"), HarmonyPostfix]
+        private static void SharedMenuMusic_Start(SharedMenuMusic __instance) => InstanceHandler.SharedMenuMusic = __instance;
     }
 }

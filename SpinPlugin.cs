@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace SpinCore.Behaviours {
     public abstract class SpinPlugin : BaseUnityPlugin {
-        public abstract string Name { get; }
-
         protected internal virtual bool HasOptionsMenu => false;
         
         protected virtual void Awake() {
