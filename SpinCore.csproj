@@ -41,12 +41,8 @@
     <Compile Include="Handlers\InstanceHandler.cs" />
     <Compile Include="Handlers\CustomLevelHandler.cs" />
     <Compile Include="Handlers\ScoreSubmissionHandler.cs" />
-    <Compile Include="Patches\InstancePatches.cs" />
-    <Compile Include="Patches\FilePathHandlerPatches.cs" />
     <Compile Include="Patches\GameStatePatches.cs" />
-    <Compile Include="Patches\MenuSelectWheelPatches.cs" />
-    <Compile Include="Patches\MainMenuPatches.cs" />
-    <Compile Include="Patches\ScoreSubmissionPatches.cs" />
+    <Compile Include="Patches\MenuPatches.cs" />
     <Compile Include="PluginInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugin.cs" />
@@ -60,6 +56,7 @@
     <Compile Include="UI\MenuManager.cs" />
     <Compile Include="UI\SpinUI.cs" />
     <Compile Include="UI\SubMenu.cs" />
+    <Compile Include="UI\UIExtensions.cs" />
     <Compile Include="UI\UITemplates.cs" />
   </ItemGroup>
   <ItemGroup>

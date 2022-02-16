@@ -1,4 +1,5 @@
 ﻿using System;
+using SMU.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,21 +19,7 @@ namespace SpinCore.UI {
             return textComponent;
         }
 
-        public static TMP_InputField CreateInputField(string name, Transform parent, string initialValue, UnityAction<string> onValueChanged, float width = 250f) {
-            var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.uiPrefabs.textField, parent);
-            var layoutElement = gameObject.AddComponent<LayoutElement>();
-            var inputField = gameObject.GetComponentInChildren<TMP_InputField>();
-
-            gameObject.name = name;
-            layoutElement.preferredWidth = width;
-            layoutElement.minWidth = width;
-            inputField.SetTextWithoutNotify(initialValue);
-            inputField.onValueChanged.AddListener(onValueChanged);
-
-            return inputField;
-        }
-
-        public static Button CreateButton(string text, Transform parent, UnityAction onClick, float height = 30f, float width = 260f) {
+        public static Button CreateButton(string text, Transform parent, float height = 30f, float width = 260f, UnityAction onClick = null) {
             var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.uiPrefabs.button, parent);
             var layoutElement = gameObject.AddComponent<LayoutElement>();
             var textTransform = gameObject.transform.Find("Imgtop").Find("Text TMP");
@@ -45,12 +32,14 @@ namespace SpinCore.UI {
             layoutElement.minWidth = width;
             Object.Destroy(textTransform.GetComponent<TranslatedTextMeshPro>());
             textTransform.GetComponent<CustomTextMeshProUGUI>().SetText(text);
-            button.onClick.AddListener(onClick);
+            
+            if (onClick != null)
+                button.onClick.AddListener(onClick);
 
             return button;
         }
 
-        public static Toggle CreateToggle(string text, Transform parent, bool initialValue, UnityAction<bool> onValueChanged, float width = 260f) {
+        public static Toggle CreateToggle(string text, Transform parent, bool initialValue = false, float width = 260f, UnityAction<bool> onValueChanged = null) {
             var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.togglePrefab, parent);
             var layoutElement = gameObject.AddComponent<LayoutElement>();
             var textTransform = gameObject.transform.Find("Heading");
@@ -63,12 +52,14 @@ namespace SpinCore.UI {
             Object.Destroy(textTransform.GetComponent<TranslatedTextMeshPro>());
             textTransform.GetComponent<CustomTextMeshProUGUI>().SetText(text);
             toggle.SetIsOnWithoutNotify(initialValue);
-            toggle.onValueChanged.AddListener(onValueChanged);
+            
+            if (onValueChanged != null)
+                toggle.onValueChanged.AddListener(onValueChanged);
 
             return toggle;
         }
 
-        public static Slider CreateSlider(string text, Transform parent, float initialValue, float min, float max, UnityAction<float> onValueChanged, bool wholeNumbers = false, Func<float, string> valueDisplay = null, float width = 260f) {
+        public static Slider CreateSlider(string text, Transform parent, float min, float max, float initialValue = float.NaN, bool wholeNumbers = false, float width = 260f, UnityAction<float> onValueChanged = null, Func<float, string> valueDisplay = null) {
             var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.sliderPrefab, parent);
             var layoutElement = gameObject.GetComponentInChildren<LayoutElement>();
             var textTransform = gameObject.transform.Find("Heading");
@@ -82,8 +73,14 @@ namespace SpinCore.UI {
             slider.minValue = min;
             slider.maxValue = max;
             slider.wholeNumbers = wholeNumbers;
+
+            if (float.IsNaN(initialValue))
+                initialValue = min;
+            
             slider.SetValueWithoutNotify(initialValue);
-            slider.onValueChanged.AddListener(onValueChanged);
+            
+            if (onValueChanged != null)
+                slider.onValueChanged.AddListener(onValueChanged);
 
             if (valueDisplay == null)
                 textComponent.SetText(text);
@@ -95,7 +92,7 @@ namespace SpinCore.UI {
             return slider;
         }
 
-        public static TMP_Dropdown CreateDropdown(string text, Transform parent, UnityAction<int> onValueChanged, string[] options = null, float width = 260f) {
+        public static TMP_Dropdown CreateDropdown(string text, Transform parent, string[] options = null, float width = 260f, UnityAction<int> onValueChanged = null) {
             var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.dropdownPrefab, parent);
             var layoutElement = gameObject.AddComponent<LayoutElement>();
             var textTransform = gameObject.transform.Find("Heading");
@@ -108,7 +105,9 @@ namespace SpinCore.UI {
             Object.Destroy(textTransform.GetComponent<TranslatedTextMeshPro>());
             textTransform.GetComponent<CustomTextMeshProUGUI>().SetText(text);
             dropdown.ClearOptions();
-            dropdown.onValueChanged.AddListener(onValueChanged);
+            
+            if (onValueChanged != null)
+                dropdown.onValueChanged.AddListener(onValueChanged);
 
             if (options == null)
                 return dropdown;
@@ -117,6 +116,24 @@ namespace SpinCore.UI {
                 dropdown.options.Add(new TMP_Dropdown.OptionData(option));
 
             return dropdown;
+        }
+        public static TMP_Dropdown CreateDropdown<T>(string text, Transform parent, float width = 260f, UnityAction<int> onValueChanged = null) where T : Enum
+            => CreateDropdown(text, parent, Enum.GetNames(typeof(T)), width, onValueChanged);
+
+        public static TMP_InputField CreateInputField(string name, Transform parent, string initialValue = "", float width = 250f, UnityAction<string> onEndEdit = null) {
+            var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.uiPrefabs.textField, parent);
+            var layoutElement = gameObject.AddComponent<LayoutElement>();
+            var inputField = gameObject.GetComponentInChildren<TMP_InputField>();
+
+            gameObject.name = name;
+            layoutElement.preferredWidth = width;
+            layoutElement.minWidth = width;
+            inputField.SetTextWithoutNotify(initialValue);
+            
+            if (onEndEdit != null)
+                inputField.onEndEdit.AddListener(onEndEdit);
+
+            return inputField;
         }
     }
 }

@@ -23,12 +23,8 @@ namespace SpinCore
             // Init logs and patches.
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
 
-            harmony.PatchAll(typeof(MainMenuPatches));
-            harmony.PatchAll(typeof(InstancePatches));
+            harmony.PatchAll(typeof(MenuPatches));
             harmony.PatchAll(typeof(GameStatePatches));
-            harmony.PatchAll(typeof(FilePathHandlerPatches));
-            harmony.PatchAll(typeof(InstanceHandler));
-            harmony.PatchAll(typeof(MenuSelectWheelPatches));
         }
 
         #region logging

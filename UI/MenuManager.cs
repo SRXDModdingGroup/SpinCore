@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using SMU.Utilities;
+using SpinCore.Behaviours;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ namespace SpinCore.UI {
         private static Transform mainMenuContainer;
         private static Transform gameStateContainer;
         private static Dictionary<string, CustomSpinMenuGroup> menuGroups;
+        private static List<SpinPlugin> spinPlugins = new List<SpinPlugin>();
 
         public static void OpenMenuGroup(CustomSpinMenuGroup menuGroup, string fromState) => menuGroup.Open(fromState);
         public static void OpenMenuGroup(string name, string fromState) {
@@ -87,8 +89,20 @@ namespace SpinCore.UI {
             initialized = true;
         }
 
+        internal static void RegisterSpinPlugin(SpinPlugin spinPlugin) {
+            spinPlugins.Add(spinPlugin);
+        }
+
         private static void CreateModOptionsMenu() {
             ModOptionsGroup = AddMenuGroup("ModOptions");
+
+            var modOptionsMenu = ModOptionsGroup.RootMenu;
+
+            foreach (var spinPlugin in spinPlugins)
+                spinPlugin.CreateOptionsMenu(modOptionsMenu.CreateTab(spinPlugin.Name).UIRoot);
+
+            foreach (var spinPlugin in spinPlugins)
+                spinPlugin.LateInit();
         }
     }
 }

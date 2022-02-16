@@ -33,7 +33,7 @@ namespace SpinCore.UI {
             tabs.Add(name, tab);
 
             if (createButton)
-                SpinUI.CreateButton(name, tabListRoot, () => OpenTab(tab), 30, 240);
+                SpinUI.CreateButton(name, tabListRoot, 30f, 240f, () => OpenTab(tab));
 
             return tab;
         }
