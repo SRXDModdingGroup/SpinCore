@@ -89,19 +89,13 @@ namespace SpinCore.UI {
             initialized = true;
         }
 
-        internal static void RegisterSpinPlugin(SpinPlugin spinPlugin) {
-            spinPlugins.Add(spinPlugin);
-        }
+        internal static void RegisterSpinPlugin(SpinPlugin spinPlugin) => spinPlugins.Add(spinPlugin);
 
         private static void CreateModOptionsMenu() {
             ModOptionsGroup = AddMenuGroup("ModOptions");
 
-            var modOptionsMenu = ModOptionsGroup.RootMenu;
-
-            foreach (var spinPlugin in spinPlugins) {
-                if (spinPlugin.HasOptionsMenu)
-                    spinPlugin.CreateOptionsMenu(modOptionsMenu.CreateTab(spinPlugin.Info.Metadata.Name).UIRoot);
-            }
+            foreach (var spinPlugin in spinPlugins)
+                spinPlugin.CreateMenus();
 
             foreach (var spinPlugin in spinPlugins)
                 spinPlugin.LateInit();
