@@ -98,8 +98,10 @@ namespace SpinCore.UI {
 
             var modOptionsMenu = ModOptionsGroup.RootMenu;
 
-            foreach (var spinPlugin in spinPlugins)
-                spinPlugin.CreateOptionsMenu(modOptionsMenu.CreateTab(spinPlugin.Name).UIRoot);
+            foreach (var spinPlugin in spinPlugins) {
+                if (spinPlugin.HasOptionsMenu)
+                    spinPlugin.CreateOptionsMenu(modOptionsMenu.CreateTab(spinPlugin.Name).UIRoot);
+            }
 
             foreach (var spinPlugin in spinPlugins)
                 spinPlugin.LateInit();

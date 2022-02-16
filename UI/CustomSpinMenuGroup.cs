@@ -39,7 +39,7 @@ namespace SpinCore.UI
         }
 
         private CustomSpinMenu CreateMenu(string name, bool isSubMenu) {
-            var menu = Instantiate(UITemplates.MenuTemplate, transform, false).GetComponent<CustomSpinMenu>();
+            var menu = Instantiate(UITemplates.MenuTemplate, transform).GetComponent<CustomSpinMenu>();
             
             menu.Init(name, this, isSubMenu);
             menus.Add(name, menu);

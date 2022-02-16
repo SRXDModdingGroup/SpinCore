@@ -60,7 +60,7 @@ namespace SpinCore.UI {
         }
 
         public static Slider CreateSlider(string text, Transform parent, float min, float max, float initialValue = float.NaN, bool wholeNumbers = false, float width = 260f, UnityAction<float> onValueChanged = null, Func<float, string> valueDisplay = null) {
-            var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.sliderPrefab, parent);
+            var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.uiPrefabs.slider, parent);
             var layoutElement = gameObject.GetComponentInChildren<LayoutElement>();
             var textTransform = gameObject.transform.Find("Heading");
             var slider = gameObject.transform.Find("SensitivitySlider").GetComponentInChildren<Slider>();
@@ -86,7 +86,7 @@ namespace SpinCore.UI {
                 textComponent.SetText(text);
             else {
                 slider.onValueChanged.AddListener(value => textComponent.SetText($"{text}: {valueDisplay(value)}"));
-                textComponent.SetText($"{text}: {valueDisplay(min)}");
+                textComponent.SetText($"{text}: {valueDisplay(initialValue)}");
             }
 
             return slider;

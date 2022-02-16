@@ -34,6 +34,11 @@ namespace SpinCore.UI {
 
             if (createButton)
                 SpinUI.CreateButton(name, tabListRoot, 30f, 240f, () => OpenTab(tab));
+            
+            if (tabs.Count == 1)
+                tab.Open();
+            else
+                tab.Close();
 
             return tab;
         }
@@ -53,7 +58,7 @@ namespace SpinCore.UI {
             gameObject.name = name;
             MenuGroup = menuGroup;
             UIRoot = transform.Find("Container").Find("ContentArea").Find("Content");
-            tabListRoot = transform.Find("TabListRoot");
+            tabListRoot = transform.Find("TabListRoot").Find("Scroll View").Find("Viewport").Find("Content");
             tabs = new Dictionary<string, CustomSpinTab>();
             Tabs = new ReadOnlyDictionary<string, CustomSpinTab>(tabs);
             contextMenus = new Dictionary<string, CustomContextMenu>();
