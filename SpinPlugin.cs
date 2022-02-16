@@ -8,7 +8,7 @@ namespace SpinCore.Behaviours {
 
         protected virtual void Awake() => MenuManager.RegisterSpinPlugin(this);
 
-        protected Transform CreateOptionsTab(string name) => MenuManager.ModOptionsGroup.RootMenu.CreateTab(name).transform;
+        protected CustomSpinTab CreateOptionsTab(string name) => MenuManager.ModOptionsGroup.RootMenu.CreateTab(name);
 
         protected internal virtual void CreateMenus() { }
 

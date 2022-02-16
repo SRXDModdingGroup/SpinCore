@@ -17,7 +17,7 @@ namespace SpinCore.UI {
         private static Transform mainMenuContainer;
         private static Transform gameStateContainer;
         private static Dictionary<string, CustomSpinMenuGroup> menuGroups;
-        private static List<SpinPlugin> spinPlugins = new List<SpinPlugin>();
+        private static SortedDictionary<string, SpinPlugin> spinPlugins = new SortedDictionary<string, SpinPlugin>();
 
         public static void OpenMenuGroup(CustomSpinMenuGroup menuGroup, string fromState) => menuGroup.Open(fromState);
         public static void OpenMenuGroup(string name, string fromState) {
@@ -89,16 +89,16 @@ namespace SpinCore.UI {
             initialized = true;
         }
 
-        internal static void RegisterSpinPlugin(SpinPlugin spinPlugin) => spinPlugins.Add(spinPlugin);
+        internal static void RegisterSpinPlugin(SpinPlugin spinPlugin) => spinPlugins.Add(spinPlugin.Info.Metadata.GUID, spinPlugin);
 
         private static void CreateModOptionsMenu() {
             ModOptionsGroup = AddMenuGroup("ModOptions");
 
-            foreach (var spinPlugin in spinPlugins)
-                spinPlugin.CreateMenus();
+            foreach (var pair in spinPlugins)
+                pair.Value.CreateMenus();
 
-            foreach (var spinPlugin in spinPlugins)
-                spinPlugin.LateInit();
+            foreach (var pair in spinPlugins)
+                pair.Value.LateInit();
         }
     }
 }
