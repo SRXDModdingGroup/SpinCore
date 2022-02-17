@@ -37,7 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Handlers\FilePathHandler.cs" />
     <Compile Include="Handlers\InstanceHandler.cs" />
     <Compile Include="Handlers\CustomLevelHandler.cs" />
     <Compile Include="Handlers\ScoreSubmissionHandler.cs" />

@@ -1,55 +1,52 @@
-﻿using SMU.Reflection;
+﻿using System.Text.RegularExpressions;
+using SMU.Reflection;
+
 namespace SpinCore.Handlers
 {
-    public static class CustomLevelHandler
-    {
-        public static string UniqueNameToFileReference(string uniqueName)
-        {
-            if (uniqueName.Contains("CUSTOM_spinshare_"))
-            {
-                uniqueName = uniqueName.Replace("CUSTOM_spinshare_", "");
-                
-                return $"spinshare_{uniqueName.Split('_')[0]}";
-            }
+    public static class CustomLevelHandler {
+        private static readonly Regex MATCH_CUSTOM_REFERENCE = new Regex("CUSTOM_(.+)_.+");
+        
+        public static string UniqueNameToFileReference(string uniqueName) {
+            var match = MATCH_CUSTOM_REFERENCE.Match(uniqueName);
             
-            return "";
+            if (match.Success)
+                return match.Groups[1].Value;
+
+            return uniqueName;
         }
 
-        public static void OpenCustomChartFromFileRef(string fileref)
+        public static void OpenChartFromFileRef(string fileRef)
         {
-            InstanceHandler.XDCustomLevelSelectMenu.GetField<XDLevelSelectMenuBase, GenericWheelInput>("_wheelInput").SetPosition(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileref));
+            InstanceHandler.XDCustomLevelSelectMenu.GetField<XDLevelSelectMenuBase, GenericWheelInput>("_wheelInput").SetPosition(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
             InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, bool>("SnapToTrack", true);
             InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, MetadataHandle>("trackToIndexToAfterSortingOrFiltering", InstanceHandler.XDCustomLevelSelectMenu.WillLandAtHandle);
         }
 
-        public static TrackInfo GetTrackInfoFromFileRef(string fileref)
+        public static TrackInfo GetTrackInfoFromFileRef(string fileRef)
         {
-            InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileref)).TrackInfoRef.TryGetLoadedAsset(out var trackInfo);
+            InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef)).TrackInfoRef.TryGetLoadedAsset(out var trackInfo);
             
             return trackInfo;
         }
 
-        public static void DeleteChartFromFileRef(string fileref)
+        public static void DeleteChartFromFileRef(string fileRef)
         {
-            var trackInfo = GetTrackInfoFromFileRef(fileref);
+            var trackInfo = GetTrackInfoFromFileRef(fileRef);
+
+            if (trackInfo == null || !trackInfo.IsCustom || !(trackInfo.CustomFile is CustomTrackBundleSaveFile customTrackBundleSaveFile))
+                return;
             
-            if (trackInfo != null)
-            {
-                var customTrackBundleSaveFile = trackInfo.CustomFile as CustomTrackBundleSaveFile;
-                if (customTrackBundleSaveFile != null)
-                {
-                    customTrackBundleSaveFile.Delete();
-                    CustomAssetLoadingHelper.Instance.RemoveFileNow(customTrackBundleSaveFile);
-                    InstanceHandler.XDCustomLevelSelectMenu.SelectedHandle = null;
-                    InstanceHandler.XDCustomLevelSelectMenu.PreviewHandle = null;
-                }
-            }
+            customTrackBundleSaveFile.Delete();
+            CustomAssetLoadingHelper.Instance.RemoveFileNow(customTrackBundleSaveFile);
+            InstanceHandler.XDCustomLevelSelectMenu.SelectedHandle = null;
+            InstanceHandler.XDCustomLevelSelectMenu.PreviewHandle = null;
         }
 
-        public static void PlayChartFromFileRef(string fileref, TrackData.DifficultyType difficulty)
+        public static void PlayChartFromFileRef(string fileRef, TrackData.DifficultyType difficulty)
         {
-            var handle = InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileref));
-            var setup = new PlayableTrackDataSetup(handle.TrackInfoRef, handle.TrackDataRefForActiveIndex(handle.TrackDataMetadata.GetClosestActiveIndexForDifficulty(difficulty)), default(SetupParameters));
+            var handle = InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
+            var setup = new PlayableTrackDataSetup(handle.TrackInfoRef, handle.TrackDataRefForActiveIndex(handle.TrackDataMetadata.GetClosestActiveIndexForDifficulty(difficulty)), default);
+            
             GameStates.LoadIntoPlayingGameState.LoadHandleUserRequest(TrackLoadingSystem.Instance.BorrowHandle(setup));
         }
     }

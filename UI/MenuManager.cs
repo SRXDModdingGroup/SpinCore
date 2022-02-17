@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using SMU.Utilities;
 using SpinCore.Behaviours;
@@ -18,6 +19,25 @@ namespace SpinCore.UI {
         private static Transform gameStateContainer;
         private static Dictionary<string, CustomSpinMenuGroup> menuGroups;
         private static SortedDictionary<string, SpinPlugin> spinPlugins = new SortedDictionary<string, SpinPlugin>();
+
+        public static void ShowAcceptCancelDialog(string message, Action onAccept = null, Action onCancel = null) {
+            if (onAccept == null)
+                onAccept = Empty;
+
+            if (onCancel == null)
+                onCancel = Empty;
+            
+            ModalMessageDialog.Instance.AddMessage(message, null,
+                new ModalMessageDialog.NullCallback(onAccept), Strings.Accept,
+                new ModalMessageDialog.NullCallback(onCancel), Strings.Cancel);
+        }
+
+        public static void ShowMessageDialog(string message, Action onConfirm = null) {
+            if (onConfirm == null)
+                onConfirm = Empty;
+            
+            ModalMessageDialog.Instance.AddMessage(message, null, new ModalMessageDialog.NullCallback(onConfirm), Strings.Okay);
+        }
 
         public static void OpenMenuGroup(CustomSpinMenuGroup menuGroup, string fromState) => menuGroup.Open(fromState);
         public static void OpenMenuGroup(string name, string fromState) {
@@ -100,5 +120,7 @@ namespace SpinCore.UI {
             foreach (var pair in spinPlugins)
                 pair.Value.LateInit();
         }
+        
+        private static void Empty() { }
     }
 }
