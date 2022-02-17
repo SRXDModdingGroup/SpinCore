@@ -9,7 +9,7 @@ namespace SpinCore.Behaviours {
         protected virtual void Awake() => MenuManager.RegisterSpinPlugin(this);
 
         protected Bindable<T> AddBindableConfig<T>(string name, T defaultValue) {
-            var configEntry = Config.Bind("Auto", name, defaultValue);
+            var configEntry = Config.Bind("Config", name, defaultValue);
             var bindable = new Bindable<T>(configEntry.Value);
             
             bindable.Bind(value => configEntry.Value = value);
