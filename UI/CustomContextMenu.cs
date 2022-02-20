@@ -2,6 +2,9 @@
 
 namespace SpinCore.UI
 {
+    /// <summary>
+    /// Behavior that extends the functionality of context menus
+    /// </summary>
     public class CustomContextMenu : MonoBehaviour {
         private SpinContextMenu baseContextMenu;
 

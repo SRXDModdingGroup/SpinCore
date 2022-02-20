@@ -6,10 +6,19 @@ using UnityEngine;
 
 namespace SpinCore.UI
 {
+    /// <summary>
+    /// Behavior that extends the functionality of menu groups
+    /// </summary>
     public class CustomSpinMenuGroup : MonoBehaviour {
         private static int gameStateCounter = 100;
         
+        /// <summary>
+        /// The primary menu in this menu group
+        /// </summary>
         public CustomSpinMenu RootMenu { get; private set; }
+        /// <summary>
+        /// A dictionary of all menus belonging to this menu group
+        /// </summary>
         public ReadOnlyDictionary<string, CustomSpinMenu> Menus { get; private set; }
 
         internal int GameStateValue { get; private set; }
@@ -17,6 +26,11 @@ namespace SpinCore.UI
 
         private Dictionary<string, CustomSpinMenu> menus;
 
+        /// <summary>
+        /// Creates a new sub menu belonging to this menu group
+        /// </summary>
+        /// <param name="name">The name of the sub menu</param>
+        /// <returns>The new sub menu</returns>
         public CustomSpinMenu CreateSubMenu(string name) => CreateMenu(name, true);
         
         internal void Init(string name, GameState gameState) {

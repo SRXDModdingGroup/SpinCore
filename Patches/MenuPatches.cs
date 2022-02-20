@@ -2,6 +2,7 @@
 using SMU.Utilities;
 using SpinCore.Handlers;
 using SpinCore.UI;
+using SpinCore.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,7 +56,7 @@ namespace SpinCore.Patches
         }
 
         [HarmonyPatch(typeof(XDLevelCompleteMenu), "ProcessGeneralSongComplete"), HarmonyPrefix]
-        private static bool XDLevelCompleteMenu_ProcessGeneralSongComplete_Prefix() => ScoreSubmissionHandler.IsScoreSubmissionEnabled;
+        private static bool XDLevelCompleteMenu_ProcessGeneralSongComplete_Prefix() => ScoreSubmissionUtility.IsScoreSubmissionEnabled;
 
         [HarmonyPatch(typeof(GenericWheelInput), "Update")]
         [HarmonyPostfix]

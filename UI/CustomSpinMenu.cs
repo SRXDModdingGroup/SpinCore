@@ -6,10 +6,25 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace SpinCore.UI {
+    /// <summary>
+    /// Behavior that extends the functionality of menus
+    /// </summary>
     public class CustomSpinMenu : MonoBehaviour {
+        /// <summary>
+        /// A dictionary of all tabs attached to this menu
+        /// </summary>
         public ReadOnlyDictionary<string, CustomSpinTab> Tabs { get; private set; }
+        /// <summary>
+        /// A dictionary of all context menus attached to this menu
+        /// </summary>
         public ReadOnlyDictionary<string, CustomContextMenu> ContextMenus { get; private set; }
+        /// <summary>
+        /// The menu group that this menu belongs to
+        /// </summary>
         public CustomSpinMenuGroup MenuGroup { get; private set; }
+        /// <summary>
+        /// The transform that this menu's UI elements should be parented to
+        /// </summary>
         public Transform UIRoot { get; private set; }
         
         internal SpinMenu BaseSpinMenu { get; private set; }
@@ -18,16 +33,30 @@ namespace SpinCore.UI {
         private Dictionary<string, CustomSpinTab> tabs;
         private Dictionary<string, CustomContextMenu> contextMenus;
 
+        /// <summary>
+        /// Opens the tab with a given name
+        /// </summary>
+        /// <param name="name">The name of the tab to open</param>
         public void OpenTab(string name) {
             if (tabs.TryGetValue(name, out var tab))
                 OpenTab(tab);
         }
 
+        /// <summary>
+        /// Opens the context menu with a given name
+        /// </summary>
+        /// <param name="name">The name of the context menu to open</param>
         public void OpenContextMenu(string name) {
             if (contextMenus.TryGetValue(name, out var contextMenu))
                 contextMenu.Open();
         }
 
+        /// <summary>
+        /// Creates a new tab that is attached to this menu
+        /// </summary>
+        /// <param name="name">The name of the tab</param>
+        /// <param name="createButton">If true, creates a button on the left side of the menu that opens the tab when pressed</param>
+        /// <returns>The new tab</returns>
         public CustomSpinTab CreateTab(string name, bool createButton = true) {
             var tab = Instantiate(UITemplates.TabTemplate, UIRoot).GetComponent<CustomSpinTab>();
             
@@ -45,6 +74,11 @@ namespace SpinCore.UI {
             return tab;
         }
 
+        /// <summary>
+        /// Creates a new context menu that is attached to this menu
+        /// </summary>
+        /// <param name="name">The name of the context menu</param>
+        /// <returns>The new context menu</returns>
         public CustomContextMenu CreateContextMenu(string name) {
             var contextMenu = BaseSpinMenu.GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
             

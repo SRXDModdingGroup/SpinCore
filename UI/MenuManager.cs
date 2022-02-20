@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using SMU.Utilities;
-using SpinCore.Behaviours;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace SpinCore.UI {
+    /// <summary>
+    /// Contains functions for creating new top level UI menus and displaying dialog menus
+    /// </summary>
     public static class MenuManager {
+        /// <summary>
+        /// A dictionary of all menu groups registered by the menu manager
+        /// </summary>
         public static ReadOnlyDictionary<string, CustomSpinMenuGroup> MenuGroups { get; private set; }
         
         internal static CustomSpinMenuGroup ModOptionsGroup { get; private set; }
@@ -20,6 +25,12 @@ namespace SpinCore.UI {
         private static Dictionary<string, CustomSpinMenuGroup> menuGroups;
         private static SortedDictionary<string, SpinPlugin> spinPlugins = new SortedDictionary<string, SpinPlugin>();
 
+        /// <summary>
+        /// Displays a dialog menu with an Accept and Cancel option
+        /// </summary>
+        /// <param name="message">The message to display on the menu</param>
+        /// <param name="onAccept">An optional action to invoke when Accept is pressed</param>
+        /// <param name="onCancel">An optional action to invoke when Cancel is pressed</param>
         public static void ShowAcceptCancelDialog(string message, Action onAccept = null, Action onCancel = null) {
             if (onAccept == null)
                 onAccept = Empty;
@@ -32,6 +43,11 @@ namespace SpinCore.UI {
                 new ModalMessageDialog.NullCallback(onCancel), Strings.Cancel);
         }
 
+        /// <summary>
+        /// Displays a dialog menu with an Okay option
+        /// </summary>
+        /// <param name="message">The message to display on the menu</param>
+        /// <param name="onConfirm">An optional action to invoke when Okay is pressed</param>
         public static void ShowMessageDialog(string message, Action onConfirm = null) {
             if (onConfirm == null)
                 onConfirm = Empty;
@@ -39,12 +55,27 @@ namespace SpinCore.UI {
             ModalMessageDialog.Instance.AddMessage(message, null, new ModalMessageDialog.NullCallback(onConfirm), Strings.Okay);
         }
 
+        /// <summary>
+        /// Opens an existing menu group
+        /// </summary>
+        /// <param name="menuGroup">The menu group to open</param>
+        /// <param name="fromState">The name of the GameState to return to after exiting the menu</param>
         public static void OpenMenuGroup(CustomSpinMenuGroup menuGroup, string fromState) => menuGroup.Open(fromState);
+        /// <summary>
+        /// Opens the menu group with the given name
+        /// </summary>
+        /// <param name="name">The name of the menu group to open</param>
+        /// <param name="fromState">The name of the GameState to return to after exiting the menu</param>
         public static void OpenMenuGroup(string name, string fromState) {
             if (menuGroups.TryGetValue(name, out var menuGroup))
                 menuGroup.Open(fromState);
         }
 
+        /// <summary>
+        /// Creates a new menu group and registers it to the menu manager
+        /// </summary>
+        /// <param name="name">The name of the menu group</param>
+        /// <returns>The new menu group</returns>
         public static CustomSpinMenuGroup AddMenuGroup(string name) {
             var menuGroup = Object.Instantiate(UITemplates.MenuGroupTemplate, mainMenuContainer).GetComponent<CustomSpinMenuGroup>();
             var gameState = Object.Instantiate(UITemplates.GameStateTemplate, gameStateContainer).GetComponent<GameState>();

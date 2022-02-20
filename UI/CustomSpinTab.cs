@@ -2,7 +2,13 @@
 
 namespace SpinCore.UI
 {
+    /// <summary>
+    /// Behaviour that extends the functionality of tabs
+    /// </summary>
     public class CustomSpinTab : MonoBehaviour {
+        /// <summary>
+        /// The transform that this tab's UI elements should be parented to
+        /// </summary>
         public Transform UIRoot { get; private set; }
         
         private SpinMenuTab baseSpinTab;
