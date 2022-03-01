@@ -64,7 +64,7 @@ namespace SpinCore.UI {
             tabs.Add(name, tab);
 
             if (createButton)
-                SpinUI.CreateButton(name, tabButtonContainer, 30f, 240f, () => OpenTab(tab));
+                SpinUI.CreateButton(name, tabButtonContainer, 240f, 30f, () => OpenTab(tab));
             
             if (tabs.Count == 1)
                 tab.Open();
