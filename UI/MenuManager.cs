@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using BepInEx.Bootstrap;
 using SMU.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,6 @@ namespace SpinCore.UI {
         private static Transform mainMenuContainer;
         private static Transform gameStateContainer;
         private static Dictionary<string, CustomSpinMenuGroup> menuGroups;
-        private static SortedDictionary<string, SpinPlugin> spinPlugins = new SortedDictionary<string, SpinPlugin>();
 
         /// <summary>
         /// Displays a dialog menu with an Accept and Cancel option
@@ -87,6 +87,13 @@ namespace SpinCore.UI {
             
             return menuGroup;
         }
+        
+        /// <summary>
+        /// Creates a new options tab in the Mod Options menu
+        /// </summary>
+        /// <param name="name">The name of the tab</param>
+        /// <returns>The new tab</returns>
+        public static CustomSpinTab CreateOptionsTab(string name) => ModOptionsGroup.RootMenu.CreateTab(name);
 
         internal static void Initialize(XDMainMenu mainMenu) {
             if (initialized)
@@ -140,10 +147,17 @@ namespace SpinCore.UI {
             initialized = true;
         }
 
-        internal static void RegisterSpinPlugin(SpinPlugin spinPlugin) => spinPlugins.Add(spinPlugin.Info.Metadata.GUID, spinPlugin);
-
         private static void CreateModOptionsMenu() {
             ModOptionsGroup = AddMenuGroup("ModOptions");
+            
+            var spinPlugins = new SortedDictionary<string, ISpinPlugin>();
+
+            foreach (var pair in Chainloader.PluginInfos) {
+                var info = pair.Value;
+                
+                if (info.Instance is ISpinPlugin spinPlugin)
+                    spinPlugins.Add(info.Metadata.GUID, spinPlugin);
+            }
 
             foreach (var pair in spinPlugins)
                 pair.Value.CreateMenus();
