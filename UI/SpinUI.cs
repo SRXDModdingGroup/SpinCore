@@ -17,7 +17,7 @@ namespace SpinCore.UI {
         /// <param name="parent">The transform to parent this object to</param>
         /// <returns>The new text object</returns>
         public static CustomTextMeshProUGUI CreateText(string text, Transform parent) {
-            var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.uiPrefabs.button, parent);
+            var gameObject = Object.Instantiate(BuildSettingsAsset.Instance.uiPrefabs.label, parent);
             var textComponent = gameObject.GetComponentInChildren<CustomTextMeshProUGUI>();
             
             gameObject.name = text;
