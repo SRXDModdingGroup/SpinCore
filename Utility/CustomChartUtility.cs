@@ -9,7 +9,7 @@ namespace SpinCore.Utility;
 /// Contains utility functions for accessing custom levels
 /// </summary>
 public static class CustomChartUtility {
-    private static readonly Regex MATCH_CUSTOM_REFERENCE = new Regex("CUSTOM_(.+)_.+");
+    private static readonly Regex MATCH_CUSTOM_REFERENCE = new("CUSTOM_(.+)_.+");
         
     /// <summary>
     /// Extracts the file name of a level from its unique name
@@ -83,10 +83,13 @@ public static class CustomChartUtility {
     /// </summary>
     /// <param name="customFile">The file to write to</param>
     /// <param name="modData">The data to write</param>
-    public static void SetModData(IMultiAssetSaveFile customFile, SRTBModData modData) {
+    /// <param name="save">Save the file immediately</param>
+    public static void SetModData(IMultiAssetSaveFile customFile, SRTBModData modData, bool save = false) {
         customFile.GetLargeStringOrJson("ModData").Value = JsonConvert.SerializeObject(modData);
         customFile.MarkDirty();
-        customFile.WriteToDiskIfDirty(true);
+        
+        if (save)
+            customFile.WriteToDiskIfDirty(true);
     }
 
     /// <summary>

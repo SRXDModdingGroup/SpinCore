@@ -8,12 +8,12 @@ internal static class GameStatePatches {
     private static bool GameStateManager_GetGameStateForType_Prefix(GameStateManager __instance, GameStateManager.GameState stateType, ref GameState __result) {
         foreach (var pair in MenuManager.MenuGroups) {
             var menuGroup = pair.Value;
-                
+            
             if ((int) stateType != menuGroup.GameStateValue)
                 continue;
 
             __result = menuGroup.BaseMenuGroup.gameState;
-                    
+            
             return false;
         }
             

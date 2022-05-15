@@ -21,10 +21,11 @@ public static class MenuManager {
     internal static CustomSpinMenuGroup ModOptionsGroup { get; private set; }
 
     private static bool initialized;
-    private static Transform mainMenuContainer;
+    private static Transform optionsMenuContainer;
     private static Transform gameStateContainer;
+    private static XDButton modsButton;
     private static Dictionary<string, CustomSpinMenuGroup> menuGroups;
-    private static SortedDictionary<string, SpinPlugin> spinPlugins = new SortedDictionary<string, SpinPlugin>();
+    private static SortedDictionary<string, SpinPlugin> spinPlugins = new();
 
     /// <summary>
     /// Displays a dialog menu with an Accept and Cancel option
@@ -78,7 +79,7 @@ public static class MenuManager {
     /// <param name="name">The name of the menu group</param>
     /// <returns>The new menu group</returns>
     public static CustomSpinMenuGroup AddMenuGroup(string name) {
-        var menuGroup = Object.Instantiate(UITemplates.MenuGroupTemplate, mainMenuContainer).GetComponent<CustomSpinMenuGroup>();
+        var menuGroup = Object.Instantiate(UITemplates.MenuGroupTemplate, optionsMenuContainer).GetComponent<CustomSpinMenuGroup>();
         var gameState = Object.Instantiate(UITemplates.GameStateTemplate, gameStateContainer).GetComponent<GameState>();
 
         gameState.gameObject.name = name;
@@ -95,7 +96,8 @@ public static class MenuManager {
             
         var buttonsContainer = mainMenu.transform.Find("TopContainer").Find("ButtonsContainer");
         var modsButtonObject = Object.Instantiate(buttonsContainer.Find("ArcadeXDButton").gameObject, buttonsContainer);
-        var modsButton = modsButtonObject.GetComponentInChildren<XDButton>();
+        
+        modsButton = modsButtonObject.GetComponentInChildren<XDButton>();
             
         // Move all buttons up to fit the new, extra button
         buttonsContainer.position += new Vector3(-0.15f, 0.5f, 0f);
@@ -126,18 +128,19 @@ public static class MenuManager {
             
         navigation.selectOnUp = modsButtonObject.GetComponentInChildren<Button>();
         exitButton.navigation = navigation;
-        mainMenuContainer = mainMenu.transform.parent.parent;
         gameStateContainer = GameStateManager.Instance.rootGameState.transform.Find("WorldMenu");
         menuGroups = new Dictionary<string, CustomSpinMenuGroup>();
         MenuGroups = new ReadOnlyDictionary<string, CustomSpinMenuGroup>(menuGroups);
 
+        optionsMenuContainer = mainMenu.transform.root.Find("MenuScenes").Find("XDMainMenu_ScenePrefab").Find("OptionsMenuWorldSpaceContainer").Find("Canvas");
+        
         Dispatcher.QueueForNextFrame(() => {
-            UITemplates.GenerateMenuTemplates(mainMenuContainer, gameStateContainer);
+            UITemplates.GenerateMenuTemplates(optionsMenuContainer, gameStateContainer);
             CreateModOptionsMenu();
             modsButton.button.onClick = new Button.ButtonClickedEvent();
             modsButton.button.onClick.AddListener(() => OpenMenuGroup(ModOptionsGroup, "MainMenu"));
         });
-            
+        
         initialized = true;
     }
 

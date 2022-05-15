@@ -12,7 +12,7 @@ public static class ScoreSubmissionUtility
     /// </summary>
     public static bool IsScoreSubmissionEnabled => scoreSubmissionBlockers.Count == 0;
 
-    private static HashSet<BepInEx.BaseUnityPlugin> scoreSubmissionBlockers = new HashSet<BepInEx.BaseUnityPlugin>();
+    private static HashSet<BepInEx.BaseUnityPlugin> scoreSubmissionBlockers = new();
 
     /// <summary>
     /// Adds a plugin to the list of score submission blockers

@@ -8,7 +8,7 @@ internal static class UITemplates {
     public static GameObject TabTemplate { get; private set; }
     public static GameObject GameStateTemplate { get; private set; }
         
-    public static void GenerateMenuTemplates(Transform mainMenuContainer, Transform gameStateContainer) {
+    public static void GenerateMenuTemplates(Transform optionsMenuContainer, Transform gameStateContainer) {
         var objectPool = new GameObject();
             
         // Create pool
@@ -16,12 +16,12 @@ internal static class UITemplates {
         objectPool.name = "MenuObjectTemplates";
 
         // Duplicate the Options Menu
-        MenuGroupTemplate = Object.Instantiate(mainMenuContainer.Find("XDOptionsMenuGroup").gameObject, null, false);
+        MenuGroupTemplate = Object.Instantiate(optionsMenuContainer.Find("XDOptionsMenuGroup").gameObject, null, false);
         MenuGroupTemplate.name = "MenuGroup";
         MenuGroupTemplate.AddComponent<CustomSpinMenuGroup>();
         MenuTemplate = MenuGroupTemplate.transform.Find("XDOptionsMenu").gameObject;
         MenuTemplate.name = "Menu";
-            
+        
         var spinMenu = MenuTemplate.AddComponent<CustomSpinMenuInternal>();
         var optionsMenu = MenuTemplate.GetComponent<XDOptionsMenu>();
 
@@ -53,19 +53,18 @@ internal static class UITemplates {
 
         // YAH YEET
         Object.DestroyImmediate(MenuGroupTemplate.transform.Find("MappingMenus").gameObject);
-        Object.DestroyImmediate(MenuTemplate.transform.Find("TrackInputPreview").gameObject);
+        Object.DestroyImmediate(TabTemplate.transform.Find("TrackInputPreview").gameObject);
         Object.DestroyImmediate(contentArea.Find("Support Content").gameObject);
         Object.DestroyImmediate(content.Find("General Tab").gameObject);
         Object.DestroyImmediate(content.Find("Visual Tab").gameObject);
         Object.DestroyImmediate(content.Find("Colors Tab").gameObject);
         Object.DestroyImmediate(content.Find("Audio Tab").gameObject);
         Object.DestroyImmediate(content.Find("Input Tab").gameObject);
+        Object.DestroyImmediate(content.Find("Customise Tab").gameObject);
         Object.DestroyImmediate(content.Find("Tabs").gameObject);
         Object.DestroyImmediate(tabContent.Find("Check Boxes Group").gameObject);
         Object.DestroyImmediate(tabContent.Find("Buttons Group").gameObject);
         Object.DestroyImmediate(tabContent.Find("Track Speed Group").gameObject);
-        Object.DestroyImmediate(tabContent.Find("Note Beam Group").gameObject);
-        Object.DestroyImmediate(tabContent.Find("Track Lines Group").gameObject);
         Object.DestroyImmediate(tabContent.Find("Defaults Button ").gameObject);
 
         var tabListRoot = Object.Instantiate(TabTemplate, MenuTemplate.transform);
@@ -76,8 +75,8 @@ internal static class UITemplates {
             
         var tabListRectTransform = tabListRoot.GetComponent<RectTransform>();
             
-        tabListRectTransform.offsetMax = new Vector3(-40f, 460f);
-        tabListRectTransform.offsetMin = new Vector3(-330f, 20f);
+        tabListRectTransform.offsetMax = new Vector3(-40f, 615f);
+        tabListRectTransform.offsetMin = new Vector3(-330f, 175f);
 
         GameStateTemplate = Object.Instantiate(gameStateContainer.Find("Options").gameObject);
         GameStateTemplate.name = "GameState";

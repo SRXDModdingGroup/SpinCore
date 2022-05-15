@@ -43,6 +43,7 @@ public class CustomSpinMenuGroup : MonoBehaviour {
         Menus = new ReadOnlyDictionary<string, CustomSpinMenu>(menus);
 
         RootMenu = CreateMenu("Root", false);
+        BaseMenuGroup.RegisterMenus();
         BaseMenuGroup.SetProperty("gameState", gameState);
         gameState.menuGroup = BaseMenuGroup;
     }
