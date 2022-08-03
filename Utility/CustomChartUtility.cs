@@ -82,10 +82,11 @@ public static class CustomChartUtility {
     /// Saves miscellaneous data to a chart file 
     /// </summary>
     /// <param name="customFile">The file to write to</param>
-    /// <param name="modData">The data to write</param>
+    /// <param name="data">The data to write</param>
+    /// <param name="key">The key used to identify the data</param>
     /// <param name="save">Save the file immediately</param>
-    public static void SetModData(IMultiAssetSaveFile customFile, SRTBModData modData, bool save = false) {
-        customFile.GetLargeStringOrJson("ModData").Value = JsonConvert.SerializeObject(modData);
+    public static void SetCustomData(IMultiAssetSaveFile customFile, string key, object data, bool save = false) {
+        customFile.GetLargeStringOrJson(key).Value = JsonConvert.SerializeObject(data);
         customFile.MarkDirty();
         
         if (save)
@@ -96,16 +97,17 @@ public static class CustomChartUtility {
     /// Gets miscellaneous data from a chart file
     /// </summary>
     /// <param name="customFile">The file to read from</param>
+    /// <param name="key">The key used to identify the data</param>
+    /// <typeparam name="T">The type of the data object</typeparam>
     /// <returns>The acquired info</returns>
-    public static SRTBModData GetModData(IMultiAssetSaveFile customFile) {
-        if (!customFile.HasJsonValueForKey("ModData"))
-            return new SRTBModData();
+    public static T GetCustomData<T>(IMultiAssetSaveFile customFile, string key) where T : new() {
+        if (customFile.HasJsonValueForKey(key)) {
+            var result = JsonConvert.DeserializeObject<T>(customFile.GetLargeStringOrJson(key).Value);
 
-        var modData = JsonConvert.DeserializeObject<SRTBModData>(customFile.GetLargeStringOrJson("ModData").Value);
-
-        if (modData is { Empty: false })
-            return modData;
-
-        return new SRTBModData();
+            if (result != null)
+                return result;
+        }
+        
+        return new T();
     }
 }

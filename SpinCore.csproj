@@ -58,7 +58,6 @@
     <Compile Include="UI\UITemplates.cs" />
     <Compile Include="Utility\CustomChartUtility.cs" />
     <Compile Include="Utility\ScoreSubmissionUtility.cs" />
-    <Compile Include="Utility\SRTBModData.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
