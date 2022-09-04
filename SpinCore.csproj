@@ -90,8 +90,8 @@
     <Reference Include="Game.Patch, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Game.Patch.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SpinModdingUtilities">
       <HintPath>D:\Steam\steamapps\common\Spin Rhythm\BepInEx\plugins\SpinModdingUtilities.dll</HintPath>
