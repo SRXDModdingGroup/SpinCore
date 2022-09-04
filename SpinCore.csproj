@@ -45,7 +45,6 @@
     <Compile Include="PluginInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="SimpleJson.cs" />
     <Compile Include="SpinPlugin.cs" />
     <Compile Include="UI\ConfigExtensions.cs" />
     <Compile Include="UI\CustomContextMenu.cs" />
