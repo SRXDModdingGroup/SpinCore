@@ -47,6 +47,7 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="SimpleJson.cs" />
     <Compile Include="SpinPlugin.cs" />
+    <Compile Include="UI\ConfigExtensions.cs" />
     <Compile Include="UI\CustomContextMenu.cs" />
     <Compile Include="UI\CustomSpinMenu.cs" />
     <Compile Include="UI\CustomSpinMenuGroup.cs" />

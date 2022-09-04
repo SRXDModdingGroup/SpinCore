@@ -56,7 +56,7 @@ public static class CustomChartUtility {
     {
         var trackInfo = GetTrackInfoFromFileRef(fileRef);
 
-        if (trackInfo == null || !trackInfo.IsCustom || !(trackInfo.CustomFile is CustomTrackBundleSaveFile customTrackBundleSaveFile))
+        if (trackInfo == null || !trackInfo.IsCustom || trackInfo.CustomFile is not CustomTrackBundleSaveFile customTrackBundleSaveFile)
             return;
             
         customTrackBundleSaveFile.Delete();

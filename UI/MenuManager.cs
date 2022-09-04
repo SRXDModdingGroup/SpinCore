@@ -89,6 +89,13 @@ public static class MenuManager {
             
         return menuGroup;
     }
+    
+    /// <summary>
+    /// Creates a new options tab in the Mod Options menu
+    /// </summary>
+    /// <param name="name">The name of the tab</param>
+    /// <returns>The new tab</returns>
+    public static CustomSpinTab CreateOptionsTab(string name) => ModOptionsGroup.RootMenu.CreateTab(name);
 
     internal static void Initialize(XDMainMenu mainMenu) {
         if (initialized)

@@ -15,29 +15,6 @@ public abstract class SpinPlugin : BaseUnityPlugin {
     protected virtual void Awake() => MenuManager.RegisterSpinPlugin(this);
 
     /// <summary>
-    /// Creates a new config option and a bindable that carries its value
-    /// </summary>
-    /// <param name="name">The name of the option</param>
-    /// <param name="defaultValue">The default value of the option</param>
-    /// <typeparam name="T">The type of the option. Must be a type supported by BepInEx's config system</typeparam>
-    /// <returns>A bindable that carries the config's value</returns>
-    protected Bindable<T> AddBindableConfig<T>(string name, T defaultValue) {
-        var configEntry = Config.Bind("Config", name, defaultValue);
-        var bindable = new Bindable<T>(configEntry.Value);
-            
-        bindable.Bind(value => configEntry.Value = value);
-
-        return bindable;
-    }
-
-    /// <summary>
-    /// Creates a new options tab in the Mod Options menu
-    /// </summary>
-    /// <param name="name">The name of the tab</param>
-    /// <returns></returns>
-    protected CustomSpinTab CreateOptionsTab(string name) => MenuManager.ModOptionsGroup.RootMenu.CreateTab(name);
-
-    /// <summary>
     /// Called by SpinCore when initializing menus for each plugin. Use this to create the options tab and any other menus for this plugin
     /// </summary>
     protected internal virtual void CreateMenus() { }
