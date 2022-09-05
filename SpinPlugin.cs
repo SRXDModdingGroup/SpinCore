@@ -15,12 +15,12 @@ public abstract class SpinPlugin : BaseUnityPlugin {
     protected virtual void Awake() => MenuManager.RegisterSpinPlugin(this);
 
     /// <summary>
-    /// Called by SpinCore when initializing menus for each plugin. Use this to create the options tab and any other menus for this plugin
+    /// Called by SpinCore when initializing each plugin. Use this to create the options tab and any other menus for this plugin
     /// </summary>
-    protected internal virtual void CreateMenus() { }
+    protected internal virtual void Init() { }
 
     /// <summary>
-    /// Called after all mod menus have been initialized by SpinCore. Use this for any initialization that depends on other menus
+    /// Called after all SpinPlugins have been initialized by SpinCore. Use this for any initialization that depends on other plugins being initialized first
     /// </summary>
     protected internal virtual void LateInit() { }
 }

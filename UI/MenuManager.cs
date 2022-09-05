@@ -143,9 +143,10 @@ public static class MenuManager {
         
         Dispatcher.QueueForNextFrame(() => {
             UITemplates.GenerateMenuTemplates(optionsMenuContainer, gameStateContainer);
-            CreateModOptionsMenu();
+            ModOptionsGroup = AddMenuGroup("ModOptions");
             modsButton.button.onClick = new Button.ButtonClickedEvent();
             modsButton.button.onClick.AddListener(() => OpenMenuGroup(ModOptionsGroup, "MainMenu"));
+            InitPlugins();
         });
         
         initialized = true;
@@ -153,11 +154,9 @@ public static class MenuManager {
 
     internal static void RegisterSpinPlugin(SpinPlugin spinPlugin) => spinPlugins.Add(spinPlugin.Info.Metadata.GUID, spinPlugin);
 
-    private static void CreateModOptionsMenu() {
-        ModOptionsGroup = AddMenuGroup("ModOptions");
-
+    private static void InitPlugins() {
         foreach (var pair in spinPlugins)
-            pair.Value.CreateMenus();
+            pair.Value.Init();
 
         foreach (var pair in spinPlugins)
             pair.Value.LateInit();
