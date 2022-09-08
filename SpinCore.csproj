@@ -46,7 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="SpinPlugin.cs" />
-    <Compile Include="UI\ConfigExtensions.cs" />
+    <Compile Include="UI\ConfigFileExtensions.cs" />
     <Compile Include="UI\CustomContextMenu.cs" />
     <Compile Include="UI\CustomSpinMenu.cs" />
     <Compile Include="UI\CustomSpinMenuGroup.cs" />

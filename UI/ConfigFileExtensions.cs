@@ -6,7 +6,7 @@ namespace SpinCore.UI;
 /// <summary>
 /// Contains extension methods for BepInEx config
 /// </summary>
-public static class ConfigExtensions {
+public static class ConfigFileExtensions {
     /// <summary>
     /// Creates a new config entry and a bindable that carries its value
     /// </summary>
