@@ -9,7 +9,7 @@ namespace SpinCore.UI;
 /// <summary>
 /// Behavior that extends the functionality of menu groups
 /// </summary>
-public class CustomSpinMenuGroup : MonoBehaviour {
+public sealed class CustomSpinMenuGroup : MonoBehaviour {
     private static int gameStateCounter = 100;
         
     /// <summary>

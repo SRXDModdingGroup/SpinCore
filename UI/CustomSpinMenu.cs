@@ -10,7 +10,7 @@ namespace SpinCore.UI;
 /// <summary>
 /// Behavior that extends the functionality of menus
 /// </summary>
-public class CustomSpinMenu : MonoBehaviour {
+public sealed class CustomSpinMenu : MonoBehaviour {
     /// <summary>
     /// A dictionary of all tabs attached to this menu
     /// </summary>

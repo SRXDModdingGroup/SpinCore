@@ -5,7 +5,7 @@ namespace SpinCore.UI;
 /// <summary>
 /// Behaviour that extends the functionality of tabs
 /// </summary>
-public class CustomSpinTab : MonoBehaviour {
+public sealed class CustomSpinTab : MonoBehaviour {
     /// <summary>
     /// The transform that this tab's UI elements should be parented to
     /// </summary>

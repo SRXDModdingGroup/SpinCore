@@ -5,7 +5,7 @@ using SpinCore.Patches;
 namespace SpinCore; 
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-internal class Plugin : BaseUnityPlugin
+internal sealed class Plugin : BaseUnityPlugin
 {
     private static Plugin instance;
         
