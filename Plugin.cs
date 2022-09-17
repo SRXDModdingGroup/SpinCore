@@ -5,6 +5,7 @@ using SpinCore.Patches;
 namespace SpinCore; 
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.pink.spinrhythm.moddingutils", "1.0.7")]
 internal sealed class Plugin : BaseUnityPlugin
 {
     private static Plugin instance;
