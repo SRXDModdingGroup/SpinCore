@@ -3,7 +3,7 @@
 namespace SpinCore.UI; 
 
 /// <summary>
-/// Behaviour that extends the functionality of tabs
+/// Behavior that extends the functionality of tabs
 /// </summary>
 public sealed class CustomSpinTab : MonoBehaviour {
     /// <summary>

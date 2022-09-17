@@ -12,9 +12,10 @@ public sealed class CustomContextMenu : MonoBehaviour {
         gameObject.name = name;
         baseContextMenu = GetComponent<SpinContextMenu>();
         baseContextMenu.closeWhenClickingOutside = true;
-            
-        var optionsTransform = baseContextMenu.transform.Find("Container").Find("Background").Find("TopPanel").Find("Options");
-        var menuTab = Instantiate(UITemplates.TabTemplate.gameObject, baseContextMenu.transform);
+
+        var menuTransform = baseContextMenu.transform;
+        var optionsTransform = menuTransform.Find("Container").Find("Background").Find("TopPanel").Find("Options");
+        var menuTab = Instantiate(UITemplates.TabTemplate.gameObject, menuTransform);
         var rectTrans = menuTab.GetComponent<RectTransform>();
             
         optionsTransform.name = "Heading";

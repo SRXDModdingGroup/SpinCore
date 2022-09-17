@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using HarmonyLib;
 using SpinCore.Handlers;
 using UnityEngine;
@@ -12,22 +11,15 @@ namespace SpinCore.UI;
 /// </summary>
 public sealed class CustomSpinMenu : MonoBehaviour {
     /// <summary>
-    /// A dictionary of all tabs attached to this menu
-    /// </summary>
-    public ReadOnlyDictionary<string, CustomSpinTab> Tabs { get; private set; }
-    /// <summary>
-    /// A dictionary of all context menus attached to this menu
-    /// </summary>
-    public ReadOnlyDictionary<string, CustomContextMenu> ContextMenus { get; private set; }
-    /// <summary>
     /// The menu group that this menu belongs to
     /// </summary>
     public CustomSpinMenuGroup MenuGroup { get; private set; }
+    
     /// <summary>
     /// The transform that this menu's UI elements should be parented to
     /// </summary>
     public Transform UIRoot { get; private set; }
-        
+    
     internal SpinMenu BaseSpinMenu { get; private set; }
         
     private Transform tabButtonContainer;
@@ -51,6 +43,22 @@ public sealed class CustomSpinMenu : MonoBehaviour {
         if (contextMenus.TryGetValue(name, out var contextMenu))
             contextMenu.Open();
     }
+
+    /// <summary>
+    /// Attempts to get a tab with the given name
+    /// </summary>
+    /// <param name="name">The name of the tab</param>
+    /// <param name="tab">The found tab</param>
+    /// <returns>True if the tab was found</returns>
+    public bool TryGetTab(string name, out CustomSpinTab tab) => tabs.TryGetValue(name, out tab);
+
+    /// <summary>
+    /// Attempts to get a context menu with the given name
+    /// </summary>
+    /// <param name="name">The name of the context menu</param>
+    /// <param name="contextMenu">The found context menu</param>
+    /// <returns>True if the context menu was found</returns>
+    public bool TryGetContextMenu(string name, out CustomContextMenu contextMenu) => contextMenus.TryGetValue(name, out contextMenu);
 
     /// <summary>
     /// Creates a new tab that is attached to this menu
@@ -97,9 +105,7 @@ public sealed class CustomSpinMenu : MonoBehaviour {
         UIRoot = transform.Find("Container").Find("ContentArea").Find("Content");
         tabButtonContainer = transform.Find("TabListRoot").Find("Scroll View").Find("Viewport").Find("Content");
         tabs = new Dictionary<string, CustomSpinTab>();
-        Tabs = new ReadOnlyDictionary<string, CustomSpinTab>(tabs);
         contextMenus = new Dictionary<string, CustomContextMenu>();
-        ContextMenus = new ReadOnlyDictionary<string, CustomContextMenu>(contextMenus);
         BaseSpinMenu = GetComponent<SpinMenu>();
         BaseSpinMenu.isSubMenu = isSubMenu;
         BaseSpinMenu.menuGroup = menuGroup.BaseMenuGroup;

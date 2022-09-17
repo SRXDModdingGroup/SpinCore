@@ -78,13 +78,12 @@ internal static class UITemplates {
         tabListRectTransform.offsetMax = new Vector3(-40f, 615f);
         tabListRectTransform.offsetMin = new Vector3(-330f, 175f);
 
-        GameStateTemplate = Object.Instantiate(gameStateContainer.Find("Options").gameObject);
+        GameStateTemplate = Object.Instantiate(gameStateContainer.Find("Options").gameObject, objectPool.transform, false);
         GameStateTemplate.name = "GameState";
             
         MenuGroupTemplate.transform.SetParent(objectPool.transform, false);
         MenuTemplate.transform.SetParent(objectPool.transform, false);
         TabTemplate.transform.SetParent(objectPool.transform, false);
-        GameStateTemplate.transform.SetParent(objectPool.transform, false);
         MenuTemplate.gameObject.SetActive(true);
         TabTemplate.gameObject.SetActive(true);
     }

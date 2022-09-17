@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using SMU.Reflection;
 using UnityEngine;
@@ -16,10 +15,6 @@ public sealed class CustomSpinMenuGroup : MonoBehaviour {
     /// The primary menu in this menu group
     /// </summary>
     public CustomSpinMenu RootMenu { get; private set; }
-    /// <summary>
-    /// A dictionary of all menus belonging to this menu group
-    /// </summary>
-    public ReadOnlyDictionary<string, CustomSpinMenu> Menus { get; private set; }
 
     internal int GameStateValue { get; private set; }
     internal SpinMenuGroup BaseMenuGroup { get; private set; }
@@ -27,12 +22,20 @@ public sealed class CustomSpinMenuGroup : MonoBehaviour {
     private Dictionary<string, CustomSpinMenu> menus;
 
     /// <summary>
+    /// Attempts to get a menu with the given name
+    /// </summary>
+    /// <param name="name">The name of the menu</param>
+    /// <param name="menu">The found menu</param>
+    /// <returns>True if the menu was found</returns>
+    public bool TryGetMenu(string name, out CustomSpinMenu menu) => menus.TryGetValue(name, out menu);
+
+    /// <summary>
     /// Creates a new sub menu belonging to this menu group
     /// </summary>
     /// <param name="name">The name of the sub menu</param>
     /// <returns>The new sub menu</returns>
     public CustomSpinMenu CreateSubMenu(string name) => CreateMenu(name, true);
-        
+    
     internal void Init(string name, GameState gameState) {
         gameObject.name = name;
         BaseMenuGroup = GetComponent<SpinMenuGroup>();
@@ -40,8 +43,6 @@ public sealed class CustomSpinMenuGroup : MonoBehaviour {
         BaseMenuGroup.menuType = (GameStateManager.GameState) GameStateValue;
         gameStateCounter++;
         menus = new Dictionary<string, CustomSpinMenu>();
-        Menus = new ReadOnlyDictionary<string, CustomSpinMenu>(menus);
-
         RootMenu = CreateMenu("Root", false);
         BaseMenuGroup.RegisterMenus();
         BaseMenuGroup.SetProperty("gameState", gameState);
@@ -58,7 +59,7 @@ public sealed class CustomSpinMenuGroup : MonoBehaviour {
             
         menu.Init(name, this, isSubMenu);
         menus.Add(name, menu);
-        BaseMenuGroup.menus = Menus.Select(pair => pair.Value.BaseSpinMenu).ToArray();
+        BaseMenuGroup.menus = menus.Select(pair => pair.Value.BaseSpinMenu).ToArray();
 
         return menu;
     }

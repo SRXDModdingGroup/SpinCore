@@ -144,24 +144,6 @@ public static class UIExtensions {
             value => property.Value = value);
     }
 
-    private static void Bind<TEvent, TBindable>(UnityEvent<TEvent> UIEvent, Bindable<TBindable> property, Action<TBindable> UISetter, Action<TEvent> propertySetter) {
-        bool locked = false;
-            
-        property.BindAndInvoke(value => {
-            if (locked)
-                return;
-
-            locked = true;
-            UISetter(value);
-            locked = false;
-        });
-        UIEvent.AddListener(value => {
-            if (locked)
-                return;
-
-            locked = true;
-            propertySetter(value);
-            locked = false;
-        });
-    }
+    private static void Bind<TEvent, TBindable>(UnityEvent<TEvent> uiEvent, Bindable<TBindable> property, Action<TBindable> uiSetter, Action<TEvent> propertySetter)
+        => UIBinding<TEvent, TBindable>.Create(uiEvent, property, uiSetter, propertySetter);
 }

@@ -54,6 +54,7 @@
     <Compile Include="UI\CustomSpinTab.cs" />
     <Compile Include="UI\MenuManager.cs" />
     <Compile Include="UI\SpinUI.cs" />
+    <Compile Include="UI\UIBinding.cs" />
     <Compile Include="UI\UIExtensions.cs" />
     <Compile Include="UI\UITemplates.cs" />
     <Compile Include="Utility\CustomChartUtility.cs" />

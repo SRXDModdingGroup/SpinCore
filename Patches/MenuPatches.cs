@@ -9,13 +9,12 @@ using UnityEngine.UI;
 namespace SpinCore.Patches; 
 
 internal static class MenuPatches {
-    private static int previousWillLandAtIndex;
-        
     private static void CreateModsUI(XDLevelSelectMenuBase levelSelectMenu, string fromState)
     {
         var customFolderButton = levelSelectMenu.sortButton.gameObject;
-        var backingTransform = customFolderButton.transform.parent.parent;
-        var modsButton = Object.Instantiate(customFolderButton.transform.parent.gameObject, backingTransform);
+        var buttonParent = customFolderButton.transform.parent;
+        var backingTransform = buttonParent.parent;
+        var modsButton = Object.Instantiate(buttonParent.gameObject, backingTransform);
             
         modsButton.name = "ModsButton";
             
@@ -36,7 +35,7 @@ internal static class MenuPatches {
             
         SpinUI.CreateButton("Open Mods Menu", contextMenu.transform, onClick: () => {
             contextMenu.CloseMenu();
-            MenuManager.OpenMenuGroup(MenuManager.ModOptionsGroup, fromState);
+            MenuManager.OpenModOptions(fromState);
         });
     }
         
@@ -57,15 +56,6 @@ internal static class MenuPatches {
 
     [HarmonyPatch(typeof(XDLevelCompleteMenu), "ProcessGeneralSongComplete"), HarmonyPrefix]
     private static bool XDLevelCompleteMenu_ProcessGeneralSongComplete_Prefix() => ScoreSubmissionUtility.IsScoreSubmissionEnabled;
-
-    [HarmonyPatch(typeof(GenericWheelInput), "Update")]
-    [HarmonyPostfix]
-    private static void GenericWheelInput_Update_PostFix(GenericWheelInput __instance) {
-        if (previousWillLandAtIndex == __instance.WillLandAtIndex)
-            return;
-
-        previousWillLandAtIndex = __instance.WillLandAtIndex;
-    }
         
     [HarmonyPatch(typeof(SharedMenuMusic), "Start"), HarmonyPostfix]
     private static void SharedMenuMusic_Start(SharedMenuMusic __instance) => InstanceHandler.SharedMenuMusic = __instance;
