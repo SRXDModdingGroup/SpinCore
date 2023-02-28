@@ -65,119 +65,65 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>$(SpinDir)\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx, Version=5.4.19.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\BepInEx\core\BepInEx.dll</HintPath>
+    <Reference Include="BepInEx, Culture=neutral, PublicKeyToken=null">
+      <HintPath>$(SpinDir)\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="com.rlabrecque.steamworks.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
-    </Reference>
-    <Reference Include="com.rlabrecque.steamworks.net, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
-    </Reference>
-    <Reference Include="Game.Patch, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Game.Patch.dll</HintPath>
-    </Reference>
-    <Reference Include="Game.Patch, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Game.Patch.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SpinModdingUtilities">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\BepInEx\plugins\SpinModdingUtilities.dll</HintPath>
+      <HintPath>$(SpinDir)\BepInEx\plugins\SpinModdingUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="SpinModdingUtilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\SpinModdingUtilities\SpinModdingUtilities\bin\Release\SpinModdingUtilities.dll</HintPath>
-    </Reference>
-    <Reference Include="SSD.Game, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\SSD.Game.dll</HintPath>
-    </Reference>
-    <Reference Include="SSD.Game, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\SSD.Game.dll</HintPath>
-    </Reference>
-    <Reference Include="SSD.PlayerServiceManager, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\SSD.PlayerServiceManager.dll</HintPath>
+    <Reference Include="SSD.Game">
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\SSD.Game.dll</HintPath>
     </Reference>
     <Reference Include="SSD.PlayerServiceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\SSD.PlayerServiceManager.dll</HintPath>
-    </Reference>
-    <Reference Include="SSD.Utility, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\SSD.Utility.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\SSD.PlayerServiceManager.dll</HintPath>
     </Reference>
     <Reference Include="SSD.Utility, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\SSD.Utility.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\SSD.Utility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>D:\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.UIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Spin Rhythm\SpinRhythm_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>$(SpinDir)\SpinRhythm_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config" />
+    <Folder Include="Config\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
