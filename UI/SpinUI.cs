@@ -24,7 +24,7 @@ public static class SpinUI {
         gameObject.name = text;
         Object.Destroy(gameObject.GetComponentInChildren<TranslatedTextMeshPro>());
         textComponent.SetText(text);
-
+        
         return textComponent;
     }
 

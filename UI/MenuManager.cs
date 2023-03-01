@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SMU.Reflection;
 using SMU.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -72,7 +73,7 @@ public static class MenuManager {
         var gameState = Object.Instantiate(UITemplates.GameStateTemplate, gameStateContainer).GetComponent<GameState>();
 
         gameState.gameObject.name = name;
-        GameStateManager.Instance.rootGameState.SetupChildren(gameStateContainer.GetComponent<GameState>(), gameStateContainer);
+        GameStateManager.Instance.rootGameState.InvokeMethod<RootGameState>("SetupChildren", gameStateContainer.GetComponent<GameState>(), gameStateContainer);
         menuGroup.Init(name, gameState);
         menuGroups.Add(name, menuGroup);
             
@@ -112,13 +113,13 @@ public static class MenuManager {
             foreach (var component in modsButton.textsToSet)
                 component.SetText("Modded Options", true, 0.02f, StockMarketText.CaseType.ToLower, StockMarketText.ScrollType.ScrollNever);
         });
-
+        
         // Swap the buttons around
         var exitButtonTransform = buttonsContainer.Find("ExitXDButton");
                 
         (exitButtonTransform.position, modsButtonTransform.position)
             = (modsButtonTransform.position, exitButtonTransform.position);
-
+        
         // Fix the navigation
         var exitButton = buttonsContainer.Find("ExitXDButton").GetComponentInChildren<Button>();
         var navigation = exitButton.navigation;
@@ -127,7 +128,7 @@ public static class MenuManager {
         exitButton.navigation = navigation;
         gameStateContainer = GameStateManager.Instance.rootGameState.transform.Find("WorldMenu");
         menuGroups = new Dictionary<string, CustomSpinMenuGroup>();
-
+        
         optionsMenuContainer = mainMenu.transform.root.Find("MenuScenes").Find("XDMainMenu_ScenePrefab").Find("OptionsMenuWorldSpaceContainer").Find("Canvas");
         
         Dispatcher.QueueForNextFrame(() => {

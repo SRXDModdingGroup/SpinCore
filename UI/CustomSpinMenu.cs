@@ -89,30 +89,32 @@ public sealed class CustomSpinMenu : MonoBehaviour {
     /// <param name="name">The name of the context menu</param>
     /// <returns>The new context menu</returns>
     public CustomContextMenu CreateContextMenu(string name) {
-        var contextMenu = BaseSpinMenu.GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
-            
-        contextMenu.Init(name);
-        contextMenus.Add(name, contextMenu);
-
-        return contextMenu;
+        return null;
+        
+        // var contextMenu = BaseSpinMenu.GenerateContextMenu().gameObject.AddComponent<CustomContextMenu>();
+        //     
+        // contextMenu.Init(name);
+        // contextMenus.Add(name, contextMenu);
+        //
+        // return contextMenu;
     }
         
     internal void Init(string name, CustomSpinMenuGroup menuGroup, bool isSubMenu) {
-        var backButton = transform.Find("XDBackButton").GetComponentInChildren<Button>();
-            
-        gameObject.name = name;
-        MenuGroup = menuGroup;
-        UIRoot = transform.Find("Container").Find("ContentArea").Find("Content");
-        tabButtonContainer = transform.Find("TabListRoot").Find("Scroll View").Find("Viewport").Find("Content");
-        tabs = new Dictionary<string, CustomSpinTab>();
-        contextMenus = new Dictionary<string, CustomContextMenu>();
-        BaseSpinMenu = GetComponent<SpinMenu>();
-        BaseSpinMenu.isSubMenu = isSubMenu;
-        BaseSpinMenu.menuGroup = menuGroup.BaseMenuGroup;
-        backButton.onClick = new Button.ButtonClickedEvent();
-        backButton.onClick.AddListener(BaseSpinMenu.ExitButtonPressed);
-        InstanceHandler.SharedMenuMusic.menusToActiveMusic
-            = InstanceHandler.SharedMenuMusic.menusToActiveMusic.AddToArray(BaseSpinMenu);
+        // var backButton = transform.Find("XDBackButton").GetComponentInChildren<Button>();
+        //     
+        // gameObject.name = name;
+        // MenuGroup = menuGroup;
+        // UIRoot = transform.Find("Container").Find("ContentArea").Find("Content");
+        // tabButtonContainer = transform.Find("TabListRoot").Find("Scroll View").Find("Viewport").Find("Content");
+        // tabs = new Dictionary<string, CustomSpinTab>();
+        // contextMenus = new Dictionary<string, CustomContextMenu>();
+        // BaseSpinMenu = GetComponent<SpinMenu>();
+        // BaseSpinMenu.isSubMenu = isSubMenu;
+        // BaseSpinMenu.menuGroup = menuGroup.BaseMenuGroup;
+        // backButton.onClick = new Button.ButtonClickedEvent();
+        // backButton.onClick.AddListener(BaseSpinMenu.ExitButtonPressed);
+        // InstanceHandler.SharedMenuMusic.menusToActiveMusic
+        //     = InstanceHandler.SharedMenuMusic.menusToActiveMusic.AddToArray(BaseSpinMenu);
     }
 
     private void OpenTab(CustomSpinTab tab) {

@@ -31,9 +31,9 @@ public static class CustomChartUtility {
     /// <param name="fileRef">The file name of the chart to select</param>
     public static void SelectChartFromFileRef(string fileRef)
     {
-        InstanceHandler.XDCustomLevelSelectMenu.GetField<XDLevelSelectMenuBase, GenericWheelInput>("_wheelInput").SetPosition(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
-        InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, bool>("SnapToTrack", true);
-        InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, MetadataHandle>("trackToIndexToAfterSortingOrFiltering", InstanceHandler.XDCustomLevelSelectMenu.WillLandAtHandle);
+        // InstanceHandler.XDCustomLevelSelectMenu.GetField<XDLevelSelectMenuBase, GenericWheelInput>("_wheelInput").SetPosition(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
+        // InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, bool>("SnapToTrack", true);
+        // InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, MetadataHandle>("trackToIndexToAfterSortingOrFiltering", InstanceHandler.XDCustomLevelSelectMenu.WillLandAtHandle);
     }
 
     /// <summary>
@@ -43,9 +43,11 @@ public static class CustomChartUtility {
     /// <returns>The track info for the chart</returns>
     public static TrackInfo GetTrackInfoFromFileRef(string fileRef)
     {
-        InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef)).TrackInfoRef.TryGetLoadedAsset(out var trackInfo);
-            
-        return trackInfo;
+        return null;
+
+        // InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef)).TrackInfoRef.TryGetLoadedAsset(out var trackInfo);
+        //     
+        // return trackInfo;
     }
 
     /// <summary>
@@ -61,8 +63,8 @@ public static class CustomChartUtility {
             
         customTrackBundleSaveFile.Delete();
         CustomAssetLoadingHelper.Instance.RemoveFileNow(customTrackBundleSaveFile);
-        InstanceHandler.XDCustomLevelSelectMenu.SelectedHandle = null;
-        InstanceHandler.XDCustomLevelSelectMenu.PreviewHandle = null;
+        // InstanceHandler.XDCustomLevelSelectMenu.SelectedHandle = null;
+        // InstanceHandler.XDCustomLevelSelectMenu.PreviewHandle = null;
     }
 
     /// <summary>
@@ -72,10 +74,10 @@ public static class CustomChartUtility {
     /// <param name="difficulty">The difficulty type of the chart to play</param>
     public static void PlayChartFromFileRef(string fileRef, TrackData.DifficultyType difficulty)
     {
-        var handle = InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
-        var setup = new PlayableTrackDataSetup(handle.TrackInfoRef, handle.TrackDataRefForActiveIndex(handle.TrackDataMetadata.GetClosestActiveIndexForDifficulty(difficulty)), default);
-            
-        GameStates.LoadIntoPlayingGameState.LoadHandleUserRequest(TrackLoadingSystem.Instance.BorrowHandle(setup));
+        // var handle = InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
+        // var setup = new PlayableTrackDataSetup(handle.TrackInfoRef, handle.TrackDataRefForActiveIndex(handle.TrackDataMetadata.GetClosestActiveIndexForDifficulty(difficulty)), default);
+        //     
+        // GameStates.LoadIntoPlayingGameState.LoadHandleUserRequest(TrackLoadingSystem.Instance.BorrowHandle(setup));
     }
 
     /// <summary>
