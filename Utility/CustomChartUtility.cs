@@ -1,83 +1,46 @@
-﻿using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using SMU.Reflection;
-using SpinCore.Handlers;
+﻿using Newtonsoft.Json;
 
 namespace SpinCore.Utility; 
 
 /// <summary>
-/// Contains utility functions for accessing custom levels
+/// Contains utility functions for accessing custom charts
 /// </summary>
 public static class CustomChartUtility {
-    private static readonly Regex MATCH_CUSTOM_REFERENCE = new("CUSTOM_(.+)_.+");
-        
-    /// <summary>
-    /// Extracts the file name of a level from its unique name
-    /// </summary>
-    /// <param name="uniqueName">The unique name of the level</param>
-    /// <returns>The file name of the level</returns>
-    public static string UniqueNameToFileReference(string uniqueName) {
-        var match = MATCH_CUSTOM_REFERENCE.Match(uniqueName);
-            
-        if (match.Success)
-            return match.Groups[1].Value;
-
-        return uniqueName;
-    }
-
     /// <summary>
     /// Selects the chart with a given file name
     /// </summary>
-    /// <param name="fileRef">The file name of the chart to select</param>
-    public static void SelectChartFromFileRef(string fileRef)
-    {
-        // InstanceHandler.XDCustomLevelSelectMenu.GetField<XDLevelSelectMenuBase, GenericWheelInput>("_wheelInput").SetPosition(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
-        // InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, bool>("SnapToTrack", true);
-        // InstanceHandler.XDCustomLevelSelectMenu.SetField<XDLevelSelectMenuBase, MetadataHandle>("trackToIndexToAfterSortingOrFiltering", InstanceHandler.XDCustomLevelSelectMenu.WillLandAtHandle);
-    }
-
-    /// <summary>
-    /// Gets the track info for the chart with a given file name
-    /// </summary>
-    /// <param name="fileRef">The file name of the chart</param>
-    /// <returns>The track info for the chart</returns>
-    public static TrackInfo GetTrackInfoFromFileRef(string fileRef)
-    {
-        return null;
-
-        // InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef)).TrackInfoRef.TryGetLoadedAsset(out var trackInfo);
-        //     
-        // return trackInfo;
+    /// <param name="fileName">The file name of the chart to select</param>
+    public static void SelectChart(string fileName) {
+        if (!XDSelectionListMenu.ShouldShowMenu)
+            return;
+        
+        var handle = GetHandleForFile(fileName);
+        
+        if (handle != null)
+            XDSelectionListMenu.Instance.ScrollToTrack(handle);
     }
 
     /// <summary>
     /// Deletes the chart with a given file name
     /// </summary>
-    /// <param name="fileRef">The file name of the chart to delete</param>
-    public static void DeleteChartFromFileRef(string fileRef)
-    {
-        var trackInfo = GetTrackInfoFromFileRef(fileRef);
-
-        if (trackInfo == null || !trackInfo.IsCustom || trackInfo.CustomFile is not CustomTrackBundleSaveFile customTrackBundleSaveFile)
-            return;
-            
-        customTrackBundleSaveFile.Delete();
-        CustomAssetLoadingHelper.Instance.RemoveFileNow(customTrackBundleSaveFile);
-        // InstanceHandler.XDCustomLevelSelectMenu.SelectedHandle = null;
-        // InstanceHandler.XDCustomLevelSelectMenu.PreviewHandle = null;
+    /// <param name="fileName">The file name of the chart to delete</param>
+    public static void DeleteChart(string fileName) {
+        var customFile = GetCustomFile(fileName);
+        
+        if (customFile != null)
+            CustomAssetLoadingHelper.Instance.RemoveFileNow(customFile);
     }
 
     /// <summary>
     /// Plays the chart with a given file name
     /// </summary>
-    /// <param name="fileRef">The file name of the chart to play</param>
+    /// <param name="fileName">The file name of the chart to play</param>
     /// <param name="difficulty">The difficulty type of the chart to play</param>
-    public static void PlayChartFromFileRef(string fileRef, TrackData.DifficultyType difficulty)
-    {
-        // var handle = InstanceHandler.XDCustomLevelSelectMenu.GetMetadataHandleForIndex(InstanceHandler.XDCustomLevelSelectMenu.GetTrackIndexFromName(fileRef));
-        // var setup = new PlayableTrackDataSetup(handle.TrackInfoRef, handle.TrackDataRefForActiveIndex(handle.TrackDataMetadata.GetClosestActiveIndexForDifficulty(difficulty)), default);
-        //     
-        // GameStates.LoadIntoPlayingGameState.LoadHandleUserRequest(TrackLoadingSystem.Instance.BorrowHandle(setup));
+    public static void PlayChart(string fileName, TrackData.DifficultyType difficulty) {
+        var setup = GetHandleForFile(fileName)?.GetSetupForDifficulty(difficulty);
+        
+        if (setup != null)
+            GameStates.LoadIntoPlayingGameState.LoadTrack(setup);
     }
 
     /// <summary>
@@ -87,7 +50,7 @@ public static class CustomChartUtility {
     /// <param name="key">The key used to identify the data</param>
     /// <param name="data">The data to write</param>
     /// <param name="save">Save the file immediately</param>
-    public static void SetCustomData(IMultiAssetSaveFile customFile, string key, object data, bool save = false) {
+    public static void SetCustomData(CustomTrackBundleSaveFile customFile, string key, object data, bool save = false) {
         customFile.GetLargeStringOrJson(key).Value = JsonConvert.SerializeObject(data);
         customFile.MarkDirty();
         
@@ -101,7 +64,7 @@ public static class CustomChartUtility {
     /// <param name="customFile">The file to remove data from</param>
     /// <param name="key">The key used to identify the data</param>
     /// <param name="save">Save the file immediately</param>
-    public static void RemoveCustomData(IMultiAssetSaveFile customFile, string key, bool save = false) {
+    public static void RemoveCustomData(CustomTrackBundleSaveFile customFile, string key, bool save = false) {
         if (!customFile.HasJsonValueForKey(key))
             return;
         
@@ -120,7 +83,7 @@ public static class CustomChartUtility {
     /// <param name="data">The acquired data</param>
     /// <typeparam name="T">The type of the data object</typeparam>
     /// <returns>True if data was found</returns>
-    public static bool TryGetCustomData<T>(IMultiAssetSaveFile customFile, string key, out T data) {
+    public static bool TryGetCustomData<T>(CustomTrackBundleSaveFile customFile, string key, out T data) {
         if (!customFile.HasJsonValueForKey(key)) {
             data = default;
 
@@ -130,5 +93,35 @@ public static class CustomChartUtility {
         data = JsonConvert.DeserializeObject<T>(customFile.GetLargeStringOrJson(key).Value);
 
         return data is not null;
+    }
+
+    /// <summary>
+    /// Gets the track info metadata for the chart with a given file name
+    /// </summary>
+    /// <param name="fileName">The file name of the chart</param>
+    /// <returns>The track info for the chart</returns>
+    public static TrackInfoMetadata GetTrackInfoMetadata(string fileName) => GetHandleForFile(fileName)?.TrackInfoMetadata;
+
+    /// <summary>
+    /// Gets the custom file for the chart with a given file name
+    /// </summary>
+    /// <param name="fileName">The file name of the chart</param>
+    /// <returns>The custom file for the chart</returns>
+    public static CustomTrackBundleSaveFile GetCustomFile(string fileName) {
+        var trackInfoRef = GetHandleForFile(fileName)?.TrackInfoRef;
+
+        if (trackInfoRef == null || !trackInfoRef.IsCustomFile || trackInfoRef.customFile is not CustomTrackBundleSaveFile customTrackBundleSaveFile)
+            return null;
+        
+        return customTrackBundleSaveFile;
+    }
+    
+    private static MetadataHandle GetHandleForFile(string fileName) {
+        var saveFile = CustomAssetLoadingHelper.FindBundleForPath(fileName);
+
+        if (saveFile == null)
+            return null;
+
+        return TrackLoadingSystem.Instance.PeekMetadataHandle(CustomAssetLoadingHelper.GetTrackInfoKeyForFile(saveFile));
     }
 }
