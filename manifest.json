@@ -5,8 +5,8 @@
   "repository": "SRXDModdingGroup/SpinCore",
   "dependencies": [
 	{
-		"name": "SpinModdingUtilities"
-		"version": "1.0.7"
+		"name": "SpinModdingUtilities",
+		"version": "1.0.7",
 		"repository": "SRXDModdingGroup/SpinModdingUtilities"
 	}
   ]
