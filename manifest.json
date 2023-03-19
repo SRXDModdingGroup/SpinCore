@@ -1,0 +1,13 @@
+{
+  "name": "SpinCore",
+  "description": "A utility for Spin Rhythm XD that allows for easy UI creation",
+  "version": "1.0.1",
+  "repository": "SRXDModdingGroup/SpinCore",
+  "dependencies": [
+	{
+		"name": "SpinModdingUtilities"
+		"version": "1.0.7"
+		"repository": "SRXDModdingGroup/SpinModdingUtilities"
+	}
+  ]
+}
